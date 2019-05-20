@@ -2,14 +2,28 @@
 
 public class PlayerMovement
 {
-    Vector3 direction;
+    Vector3 inputDirection, inputRotation;
 
-    public float speed = 10f;
+    float rotationTarget;
+    float rotationVelocity;
+
+    float speed = 10f;
+    float rotationSpeed = 0.1f;
+
 
     public void MovePlayer(Rigidbody rb)
     {
-        direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        
-        rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+        inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        inputRotation = inputDirection.normalized;
+
+        if (inputRotation != Vector3.zero)
+        {
+            rotationTarget = Mathf.Atan2(inputRotation.x, inputRotation.z) * Mathf.Rad2Deg;
+            rb.transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(rb.transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+        }            
+
+        rb.MovePosition(rb.position + inputDirection * speed * Time.fixedDeltaTime);
+
     }
+
 }

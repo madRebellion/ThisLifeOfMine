@@ -25,6 +25,7 @@ public class DialogueManager : MonoBehaviour
     public TextMeshProUGUI namePlate, sentencePlate;
 
     public Animator dialogueBoxAnimator;
+    public GameObject talkPrompt;
     
     // A different way to write a Start function apparently
     void Start() => dialogueSentences = new Queue<string>();
@@ -32,6 +33,8 @@ public class DialogueManager : MonoBehaviour
     public void ActivateDialogue(Dialogue d)
     {
         Debug.Log("Talking to " + d.charName);
+
+        talkPrompt.SetActive(false);
 
         dialogueBoxAnimator.SetBool("StartConvo", true);
         dialogueBoxAnimator.SetBool("ConvoFinish", false);      // Preventing the dialogue box from looping between opening and closing transtions when an NPC was talked to after the first time
@@ -66,6 +69,7 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Conversation is done.");
         dialogueBoxAnimator.SetBool("StartConvo", false);
         dialogueBoxAnimator.SetBool("ConvoFinish", true);
+        talkPrompt.SetActive(true);
     }
 
 }

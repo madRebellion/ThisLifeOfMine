@@ -21,11 +21,17 @@ public class DialogueNPC : MonoBehaviour
         DialogueManager.Instance.ActivateDialogue(dialogue);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        DialogueManager.Instance.talkPrompt.SetActive(true);
+    }
+
     private void OnTriggerStay(Collider other)
     {
+        
         if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
-        {
-            switch(timesTalked)
+        {          
+            switch (timesTalked)
             {
                 case 0:
                     Debug.Log("Pressed E");
@@ -40,5 +46,10 @@ public class DialogueNPC : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        DialogueManager.Instance.talkPrompt.SetActive(false);
     }
 }

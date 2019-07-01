@@ -33,7 +33,7 @@ public class DialogueNPC : MonoBehaviour
                     timesTalked++;
                     break;
                 case 1:
-                    StartDialogue(npcDialogue[timesTalked]);
+                    StartDialogue(npcDialogue[1]);
                     timesTalked++;
                     break;
                 default:

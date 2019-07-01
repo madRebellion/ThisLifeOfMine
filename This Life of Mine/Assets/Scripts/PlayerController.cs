@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     PlayerMovement playerMove = new PlayerMovement();
@@ -11,7 +10,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponentInChildren<Rigidbody>();
     }
 
     // Update is called once per frame

@@ -21,11 +21,12 @@ public class DialogueManager : MonoBehaviour
 
     Queue<string> dialogueSentences;
 
+    // Accessing the text element of the Text Mesh Pro component for use in UI
     public TextMeshProUGUI namePlate, sentencePlate;
 
     public Animator dialogueBoxAnimator;
     
-    // Start is called before the first frame update
+    // A different way to write a Start function apparently
     void Start() => dialogueSentences = new Queue<string>();
 
     public void ActivateDialogue(Dialogue d)
@@ -33,10 +34,12 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("Talking to " + d.charName);
 
         dialogueBoxAnimator.SetBool("StartConvo", true);
-        dialogueBoxAnimator.SetBool("ConvoFinish", false);
+        dialogueBoxAnimator.SetBool("ConvoFinish", false);      // Preventing the dialogue box from looping between opening and closing transtions when an NPC was talked to after the first time
 
         namePlate.text = d.charName;
        
+        // Clears the queue of any string elements that was added to the queue from another NPC or dialogue source
+        // Prevents dialogue from appearing that does't belong to the current object
         dialogueSentences.Clear();
 
         foreach (string s in d.charSentence)

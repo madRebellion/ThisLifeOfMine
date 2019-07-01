@@ -7,7 +7,7 @@ public class PlayerMovement
     float rotationTarget;
     float rotationVelocity;
 
-    float speed = 10f;
+    public float speed = 10f;
     float rotationSpeed = 0.1f;
 
 
@@ -20,7 +20,9 @@ public class PlayerMovement
         {
             rotationTarget = Mathf.Atan2(inputRotation.x, inputRotation.z) * Mathf.Rad2Deg;
             rb.transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(rb.transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
-        }            
+        }        
+
+        speed = Input.GetKey(KeyCode.LeftShift) ? 15f : 10f;
 
         rb.MovePosition(rb.position + inputDirection * speed * Time.fixedDeltaTime);
 

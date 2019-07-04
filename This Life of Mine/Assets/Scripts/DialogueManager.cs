@@ -26,6 +26,9 @@ public class DialogueManager : MonoBehaviour
 
     public Animator dialogueBoxAnimator;
     public GameObject talkPrompt;
+
+    public Player playerMovement;
+    public TPCamera cameraMovement;
     
     // A different way to write a Start function apparently
     void Start() => dialogueSentences = new Queue<string>();
@@ -38,6 +41,10 @@ public class DialogueManager : MonoBehaviour
             Cursor.visible = true;
         }
 
+        // Quick fixes to prevent the player from moving and looking around while in dialogue
+        playerMovement.interacting = true;
+        cameraMovement.interacting = true;
+        
         Debug.Log("Talking to " + d.charName);
 
         talkPrompt.SetActive(false);
@@ -78,6 +85,8 @@ public class DialogueManager : MonoBehaviour
         talkPrompt.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        playerMovement.interacting = false;
+        cameraMovement.interacting = false;
     }
 
 }

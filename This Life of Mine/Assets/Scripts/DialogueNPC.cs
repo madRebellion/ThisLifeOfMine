@@ -5,6 +5,7 @@ using UnityEngine;
 public class DialogueNPC : MonoBehaviour
 {
     public Dialogue[] npcDialogue;
+    public Player player;
 
     int timesTalked = 0;
 
@@ -18,6 +19,7 @@ public class DialogueNPC : MonoBehaviour
 
     void StartDialogue(Dialogue dialogue)
     {
+        player.lookTarget = gameObject.transform;
         DialogueManager.Instance.ActivateDialogue(dialogue);
     }
 

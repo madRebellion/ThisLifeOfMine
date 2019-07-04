@@ -1015,7 +1015,7 @@ MonoBehaviour:
   sentencePlate: {fileID: 502911628}
   dialogueBoxAnimator: {fileID: 1009044049}
   talkPrompt: {fileID: 973539923}
-  movement: {fileID: 1034381487}
+  playerMovement: {fileID: 1034381487}
   cameraMovement: {fileID: 963194229}
 --- !u!4 &779523984
 Transform:

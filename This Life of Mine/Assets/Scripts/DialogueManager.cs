@@ -32,10 +32,16 @@ public class DialogueManager : MonoBehaviour
 
     public void ActivateDialogue(Dialogue d)
     {
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         Debug.Log("Talking to " + d.charName);
 
         talkPrompt.SetActive(false);
-
+        
         dialogueBoxAnimator.SetBool("StartConvo", true);
         dialogueBoxAnimator.SetBool("ConvoFinish", false);      // Preventing the dialogue box from looping between opening and closing transtions when an NPC was talked to after the first time
 
@@ -70,6 +76,8 @@ public class DialogueManager : MonoBehaviour
         dialogueBoxAnimator.SetBool("StartConvo", false);
         dialogueBoxAnimator.SetBool("ConvoFinish", true);
         talkPrompt.SetActive(true);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
 }

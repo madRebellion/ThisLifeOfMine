@@ -55,7 +55,7 @@ public class DialogueNPC : MonoBehaviour
                 }
             }
         }
-        else if (timesTalked > npcDialogue.Length)
+        else
         {
             DialogueManager.Instance.talkPrompt.SetActive(false);
         }

@@ -8,6 +8,7 @@ public class DialogueNPC : MonoBehaviour
     public Player player;
 
     int timesTalked = 0;
+    float dst;
 
     private void Awake()
     {
@@ -17,41 +18,52 @@ public class DialogueNPC : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        DistanceFromPlayer();
+        HandleDialogue();
+    }
+
     void StartDialogue(Dialogue dialogue)
     {
         player.lookTarget = gameObject.transform;
+        player.interacting = true;
         DialogueManager.Instance.ActivateDialogue(dialogue);
     }
 
-    private void OnTriggerEnter(Collider other)
+    void HandleDialogue()
     {
-        DialogueManager.Instance.talkPrompt.SetActive(true);
-    }
+        if (dst <= 3.5f && timesTalked < npcDialogue.Length)
+        {
+            DialogueManager.Instance.talkPrompt.SetActive(true);
 
-    private void OnTriggerStay(Collider other)
-    {
-        
-        if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
-        {          
-            switch (timesTalked)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                case 0:
-                    Debug.Log("Pressed E");
-                    StartDialogue(npcDialogue[0]);
-                    timesTalked++;
-                    break;
-                case 1:
-                    StartDialogue(npcDialogue[1]);
-                    timesTalked++;
-                    break;
-                default:
-                    break;
+                switch (timesTalked)
+                {
+                    case 0:
+                        Debug.Log("Pressed E");
+                        StartDialogue(npcDialogue[0]);
+                        timesTalked++;
+                        break;
+                    case 1:
+                        StartDialogue(npcDialogue[1]);
+                        timesTalked++;
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
+        else if (timesTalked > npcDialogue.Length)
+        {
+            DialogueManager.Instance.talkPrompt.SetActive(false);
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        DialogueManager.Instance.talkPrompt.SetActive(false);
-    }
+    void DistanceFromPlayer()
+    {        
+        dst = Vector3.Distance(transform.position, player.transform.position);
+    }   
+
 }

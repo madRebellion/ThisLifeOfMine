@@ -6,36 +6,33 @@ using UnityEngine;
 //Attach this to characters you want the player to talk to.
 public class DialogueNPC : MonoBehaviour
 {
-    public Dialogue npcDialogue;
+    DialogueArrays npc = new DialogueArrays();
     public Player player;
 
-    string streamingPath, jsonFile;
-
-    int previousID;
+    //public GameObject talkPrompt;
+    
     int dialogueID = 1;
-    //int timesTalked = 0;
-    float dst;//Used later.
+    int previousID;
+    public float dst;//Used later.
 
     private void Start()
     {
-        GetDialogue(dialogueID.ToString());
+        npc.PopulateDictionary(gameObject.name);
+        previousID = dialogueID;
+    }
+
+
+    private void Update()
+    {
+        GetDistance();
+        HandleDialogue();
     }
 
     void ChangeID()
     {
         previousID = dialogueID;
+        
         dialogueID++;
-    }
-
-    private void Update()
-    {
-        DistanceFromPlayer();
-        HandleDialogue();
-
-        if (dialogueID != previousID)
-        {
-            GetDialogue(dialogueID.ToString());
-        }
     }
 
     void StartDialogue(Dialogue dialogue)
@@ -47,15 +44,25 @@ public class DialogueNPC : MonoBehaviour
 
     void HandleDialogue()
     {
-        if (dst <= 3.5f)//If the player is close enough and they can still engage in converstaion, then show the talk prompt and await input.
-        {
-            DialogueManager.Instance.talkPrompt.SetActive(true);    
-            
-            if (Input.GetKeyDown(KeyCode.E))
+        if (DialogueManager.Instance.talkPrompt.activeInHierarchy)//If the player is close enough and they can still engage in converstaion, then show the talk prompt and await input.
+        {            
+            if (Input.GetKeyDown(KeyCode.E) && npc.dialogueOptions.ContainsKey(dialogueID))
             {
-                StartDialogue(npcDialogue);
-                ChangeID();
+                StartDialogue(npc.dialogueOptions[dialogueID]);
+
+                if (dialogueID < npc.dialogueOptions.Count)
+                    ChangeID();
             }
+        }        
+    }
+
+    void GetDistance()
+    {
+        dst = Vector3.Distance(transform.position, player.transform.position);
+
+        if (dst <= 4f)
+        {
+            DialogueManager.Instance.talkPrompt.SetActive(true);
         }
         else
         {
@@ -63,26 +70,10 @@ public class DialogueNPC : MonoBehaviour
         }
     }
 
-    //Allows us to know when the player is within talking range.
-    void DistanceFromPlayer()
-    {
-        dst = Vector3.Distance(transform.position, player.transform.position);
-    }
-
-    void GetDialogue(string newID)
-    {
-        streamingPath = Application.streamingAssetsPath + "/Dialogue/" + gameObject.name + "/" + newID + " " + gameObject.name + ".json";
-        jsonFile = File.ReadAllText(streamingPath);
-        npcDialogue = JsonUtility.FromJson<Dialogue>(jsonFile);
-    }
-
-    //private void OnTriggerStay(Collider other)
+    //void GetDialogue(string newID)
     //{
-    //    if (other.tag == "Player" && Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        StartDialogue(npcDialogue);
-    //        ChangeID();
-    //    }
+    //    streamingPath = Application.streamingAssetsPath + "/Dialogue/" + gameObject.name + "/" + newID + " " + gameObject.name + ".json";
+    //    jsonFile = File.ReadAllText(streamingPath);
+    //    npcDialogue = JsonUtility.FromJson<Dialogue>(jsonFile);
     //}
-
 }

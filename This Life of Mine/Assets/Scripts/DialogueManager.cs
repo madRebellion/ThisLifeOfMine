@@ -22,6 +22,8 @@ public class DialogueManager : MonoBehaviour
 
     Queue<string> dialogueSentences;//It's like a list.
 
+    //public Dictionary<int, Dialogue> dialogues = new Dictionary<int, Dialogue>();
+
     //Accessing the text element of the Text Mesh Pro component for use in UI
     public TextMeshProUGUI namePlate, sentencePlate;
 
@@ -54,8 +56,6 @@ public class DialogueManager : MonoBehaviour
 
         dialogueBox.SetActive(true);//Show the dialogue box.
         
-        Debug.Log("Talking to " + d.charName);
-
         talkPrompt.SetActive(false);//Hide the '[E] - Talk' prompt.
                 
         namePlate.text = d.charName;//Show the name of the current NPC on the UI window.
@@ -111,8 +111,6 @@ public class DialogueManager : MonoBehaviour
     //Generic dialogue ending crap.
     void FinishDialogue()
     {
-        Debug.Log("Conversation is done.");
-        //talkPrompt.SetActive(true);
         dialogueBox.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

@@ -35,7 +35,7 @@ public class DialogueManager : MonoBehaviour
     public Player playerMovement;
     public TPCamera cameraMovement;
     
-    //A different way to write a Start function apparently
+    //A different way to write a Start function
     void Start() => dialogueSentences = new Queue<string>();
 
     public void ActivateDialogue(Dialogue d)
@@ -48,7 +48,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         //Quick fixes to prevent the player from moving and looking around while in dialogue
-        //playerMovement.interacting = true;
         playerMovement.interacting = true;
         //cameraMovement.interacting = true;
         cameraMovement.enabled = false;//Disable the script that allows the camera to move.

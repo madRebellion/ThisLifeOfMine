@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
          //                                                                                  No idea. Used within the function, we dont set this value ourselves.
         }
 
-        speed = (Input.GetKey(KeyCode.LeftShift) ? 25f : 10f) * inputDirection.magnitude;
+        speed = (Input.GetKey(KeyCode.LeftShift) ? 17f : 10f) * inputDirection.magnitude;
         
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }

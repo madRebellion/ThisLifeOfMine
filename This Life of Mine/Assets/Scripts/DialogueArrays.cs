@@ -9,6 +9,8 @@ public class DialogueArrays
 
     public void PopulateDictionary(string _name)
     {
+        dialogueOptions.Clear();
+
         string[] files = Directory.GetFiles(Application.streamingAssetsPath + "/Dialogue/" + _name + "/", "*.json");
 
         foreach (string s in files)

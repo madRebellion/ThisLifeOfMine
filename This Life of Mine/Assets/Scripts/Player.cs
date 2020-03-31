@@ -9,8 +9,8 @@ public class Player : MonoBehaviour
     float rotationSpeed = 0.1f;
     float speed = 10f;
 
-    public bool interacting = false;    
-    
+    public bool interacting = false;
+
     private Transform camera;    
     [HideInInspector]
     public Transform lookTarget;
@@ -25,7 +25,20 @@ public class Player : MonoBehaviour
         if (!interacting)
             MoveCharacter();        
         else
-            LookAtTarget(lookTarget);        
+            LookAtTarget(lookTarget);
+    }
+
+    private void FixedUpdate()
+    {
+        RaycastHit hitInfo;
+        if (Physics.Raycast(transform.position + new Vector3(0, 1f, 0), transform.forward, out hitInfo, 2f))
+        {
+            Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * 2f, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(transform.position + new Vector3(0, 1f,0), transform.forward * 2f, Color.red);
+        }
     }
 
     //Rotate the player to look at an object when interacting with it, Transform target = the object we want to focus on.
@@ -56,5 +69,23 @@ public class Player : MonoBehaviour
         speed = (Input.GetKey(KeyCode.LeftShift) ? 17f : 10f) * inputDirection.magnitude;
         
         transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Interactable NPC")
+        {
+            DialogueManager.Instance.talkPrompt.SetActive(true);
+            other.gameObject.GetComponent<DialogueNPC>().PopulateDialogue(other.gameObject);
+
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Interactable NPC")
+        {
+            DialogueManager.Instance.talkPrompt.SetActive(false);
+        }
     }
 }

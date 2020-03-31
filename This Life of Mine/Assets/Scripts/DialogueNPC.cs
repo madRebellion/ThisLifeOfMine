@@ -8,24 +8,25 @@ public class DialogueNPC : MonoBehaviour
 {
     DialogueArrays npc = new DialogueArrays();
     public Player player;
-
-    //public GameObject talkPrompt;
-    
+        
     int dialogueID = 1;
     int previousID;
-    public float dst;//Used later.
-
+    float dst;//Used later.
+    
     private void Start()
     {
-        npc.PopulateDictionary(gameObject.name);
+        //npc.PopulateDictionary(gameObject.name);
         previousID = dialogueID;
     }
 
-
     private void Update()
     {
-        GetDistance();
         HandleDialogue();
+    }
+
+    public void PopulateDialogue(GameObject thisObj)
+    {
+        npc.PopulateDictionary(thisObj.name);
     }
 
     void ChangeID()
@@ -56,24 +57,21 @@ public class DialogueNPC : MonoBehaviour
         }        
     }
 
-    void GetDistance()
-    {
-        dst = Vector3.Distance(transform.position, player.transform.position);
-
-        if (dst <= 4f)
-        {
-            DialogueManager.Instance.talkPrompt.SetActive(true);
-        }
-        else
-        {
-            DialogueManager.Instance.talkPrompt.SetActive(false);
-        }
-    }
-
     //void GetDialogue(string newID)
     //{
     //    streamingPath = Application.streamingAssetsPath + "/Dialogue/" + gameObject.name + "/" + newID + " " + gameObject.name + ".json";
     //    jsonFile = File.ReadAllText(streamingPath);
     //    npcDialogue = JsonUtility.FromJson<Dialogue>(jsonFile);
+    //}
+
+    //Talk prompt triggers. 
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    DialogueManager.Instance.talkPrompt.SetActive(true);        
+    //}
+
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    DialogueManager.Instance.talkPrompt.SetActive(false);        
     //}
 }

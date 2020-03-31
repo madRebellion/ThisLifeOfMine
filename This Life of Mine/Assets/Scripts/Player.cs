@@ -9,35 +9,25 @@ public class Player : MonoBehaviour
     float rotationSpeed = 0.1f;
     float speed = 10f;
 
+    public bool inRange = false;
     public bool interacting = false;
 
     private Transform camera;    
     [HideInInspector]
     public Transform lookTarget;
     
-    private void Start()
-    {
-        camera = Camera.main.transform;
-    }
+    private void Start() => camera = Camera.main.transform;
 
-    public void Update()
+    private void Update()
     {
-        if (!interacting)
-            MoveCharacter();        
-        else
-            LookAtTarget(lookTarget);
-    }
-
-    private void FixedUpdate()
-    {
-        RaycastHit hitInfo;
-        if (Physics.Raycast(transform.position + new Vector3(0, 1f, 0), transform.forward, out hitInfo, 2f))
+        if (inRange && Input.GetKeyDown(KeyCode.E))
         {
-            Debug.DrawRay(transform.position + new Vector3(0, 1f, 0), transform.forward * 2f, Color.green);
+            lookTarget.GetComponent<DialogueNPC>().StartDialogue();
+            LookAtTarget(lookTarget);
         }
         else
         {
-            Debug.DrawRay(transform.position + new Vector3(0, 1f,0), transform.forward * 2f, Color.red);
+            MoveCharacter();
         }
     }
 
@@ -75,9 +65,11 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "Interactable NPC")
         {
+            Debug.Log(other.gameObject.name);
             DialogueManager.Instance.talkPrompt.SetActive(true);
-            other.gameObject.GetComponent<DialogueNPC>().PopulateDialogue(other.gameObject);
-
+            lookTarget = other.gameObject.transform;
+            inRange = true;
+            other.gameObject.GetComponent<DialogueNPC>().CollectDialogue();
         }
     }
 
@@ -86,6 +78,8 @@ public class Player : MonoBehaviour
         if (other.tag == "Interactable NPC")
         {
             DialogueManager.Instance.talkPrompt.SetActive(false);
+            lookTarget = null;
+            inRange = false;
         }
     }
 }

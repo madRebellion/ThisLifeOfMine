@@ -42,6 +42,7 @@ public class DialogueManager : MonoBehaviour
 
     public void ActivateDialogue(Dialogue d)
     {
+        Debug.Log("Talking with " + d.charName);
         //Show the cursor and unlock it.
         if (Cursor.lockState == CursorLockMode.Locked)
         {
@@ -70,10 +71,10 @@ public class DialogueManager : MonoBehaviour
             dialogueSentences.Enqueue(s);
         }
 
-        NextSentence();
+        DisplaySentence();
     }
 
-    public void NextSentence()
+    public void DisplaySentence()
     {
         if (dialogueSentences.Count == 0)       //If we have no more elements in our queue...
         {
@@ -91,7 +92,6 @@ public class DialogueManager : MonoBehaviour
             buttonIcon.color = nextColour;
         }
         
-        //sentencePlate.text = dialogueSentences.Dequeue();
         string sentence = dialogueSentences.Dequeue();//Take the next element in our queue and store it as a new string for later use.
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));

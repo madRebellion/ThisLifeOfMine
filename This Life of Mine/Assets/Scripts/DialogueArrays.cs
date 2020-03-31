@@ -9,7 +9,7 @@ public class DialogueArrays
 
     public void PopulateDictionary(string _name)
     {
-        dialogueOptions.Clear();
+        dialogueOptions.Clear();        
 
         string[] files = Directory.GetFiles(Application.streamingAssetsPath + "/Dialogue/" + _name + "/", "*.json");
 
@@ -18,6 +18,7 @@ public class DialogueArrays
             string jsonString = File.ReadAllText(s);
             Dialogue npc = JsonUtility.FromJson<Dialogue>(jsonString);
             dialogueOptions.Add(npc.id, npc);
+            Debug.Log("Dictionary compiled " + dialogueOptions.Count + " files");
         }
     }
 }

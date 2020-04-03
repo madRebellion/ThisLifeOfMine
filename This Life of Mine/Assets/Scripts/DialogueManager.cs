@@ -23,13 +23,13 @@ public class DialogueManager : MonoBehaviour
     Queue<string> dialogueSentences;
 
     //Accessing the text element of the Text Mesh Pro component for use in UI
-    public TextMeshProUGUI namePlate, sentencePlate;
+    public TextMeshProUGUI namePlate, sentencePlate, buttonText;
 
     public GameObject talkPrompt, dialogueBox;
 
     Color nextColour = new Color(255, 255, 255), completeColour = new Color(0, 198, 0);
-    public Image buttonIcon;
-    public Sprite next, finish;
+    //public Image buttonIcon;
+    //public Sprite next, finish;
 
     //Prevent the player and camera from moving when in dialogue.
     public Player playerMovement;
@@ -75,12 +75,16 @@ public class DialogueManager : MonoBehaviour
                 FinishDialogue();
                 return;
             case 1:
-                buttonIcon.sprite = finish;
-                buttonIcon.color = completeColour;
+                //buttonIcon.sprite = finish;
+                //buttonIcon.color = completeColour;
+                buttonText.text = "End";
+                buttonText.color = completeColour;
                 break;
             default:
-                buttonIcon.sprite = next;
-                buttonIcon.color = nextColour;
+                //buttonIcon.sprite = next;
+                //buttonIcon.color = nextColour;
+                buttonText.text = "Next";
+                buttonText.color = nextColour;
                 break;
         }
 

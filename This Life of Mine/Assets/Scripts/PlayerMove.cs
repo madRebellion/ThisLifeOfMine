@@ -71,7 +71,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Dialogue")
+        if (other.tag == "NPC / Dialogue")
         {
             DialogueManager.Instance.talkPrompt.SetActive(false);
             lookTarget = null;

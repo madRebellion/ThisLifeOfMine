@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enums;
 
 [CreateAssetMenu(fileName = "New Item", menuName = "Items/Consumable")]
 public class ConsumableItem : ScriptableObject
@@ -21,11 +22,3 @@ public class ConsumableItem : ScriptableObject
     Sprite icon, stackedAmount;    
 }
 
-enum ItemType
-{
-    Healing,
-    Damage,
-    Buff,
-    Debuff,
-    Defence
-}

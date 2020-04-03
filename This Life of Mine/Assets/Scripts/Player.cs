@@ -7,24 +7,30 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            SaveLoad.SaveGame(this, cam);
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GameSaveFile gsFile = SaveLoad.LoadGame();
-            health = gsFile.health;            
-            ConvertPosition(gsFile.playerPosition, gsFile.cameraPosition);
-            ConvertRotation(gsFile.playerRotation, gsFile.cameraRotation);
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    SaveLoad.SaveGame(this, cam);
+        //}
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    GameSaveFile gsFile = SaveLoad.LoadGame();
+        //    health = gsFile.health;            
+        //    ConvertPosition(gsFile.playerPosition, gsFile.cameraPosition);
+        //    ConvertRotation(gsFile.playerRotation, gsFile.cameraRotation);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    health++;
+        //}
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            health++;
+            GameStateManager.instance.isPaused = !GameStateManager.instance.isPaused;
+            GameStateManager.instance.PauseGame();
         }
     }
 
-    void ConvertPosition(float[] pos, float[] camPos)
+    public void ConvertPosition(float[] pos, float[] camPos)
     {
         Vector3 position;
         position.x = pos[0];
@@ -39,7 +45,7 @@ public class Player : MonoBehaviour
         cam.transform.position = camPosition;
     }
 
-    void ConvertRotation(float[] rot, float[] camRot)
+    public void ConvertRotation(float[] rot, float[] camRot)
     {
         Vector3 playerRot;
         playerRot.x = rot[0];

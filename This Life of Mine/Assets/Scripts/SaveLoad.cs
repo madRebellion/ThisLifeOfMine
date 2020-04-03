@@ -7,7 +7,7 @@ public static class SaveLoad
     public static void SaveGame(Player playerInfo, TPCamera cameraInfo)
     {
         BinaryFormatter binaryFormatter = new BinaryFormatter();
-        string savePath = Application.persistentDataPath + "/game.sav";
+        string savePath = Application.persistentDataPath + "/Saves/game.sav";
         FileStream fileStream = new FileStream(savePath, FileMode.Create);
         GameSaveFile gsFile = new GameSaveFile(playerInfo, cameraInfo);
 
@@ -17,13 +17,13 @@ public static class SaveLoad
 
     public static GameSaveFile LoadGame()
     {
-        string loadPath = Application.persistentDataPath + "/game.sav";
+        string loadPath = Application.persistentDataPath + "/Saves/game.sav";
         if (File.Exists(loadPath))
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream fileStream = new FileStream(loadPath, FileMode.Open);
             GameSaveFile gsFile = (GameSaveFile)binaryFormatter.Deserialize(fileStream);
-
+           
             return gsFile;
         }
         else

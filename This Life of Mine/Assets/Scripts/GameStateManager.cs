@@ -50,7 +50,10 @@ public class GameStateManager : MonoBehaviour
     {
         GameSaveFile gsFile = SaveLoad.LoadGame();
         player.health = gsFile.health;
-        player.ConvertPosition(gsFile.playerPosition, gsFile.cameraPosition);
-        player.ConvertRotation(gsFile.playerRotation, gsFile.cameraRotation);
+        player.ConvertPosition(gsFile.playerPosition);
+        player.ConvertRotation(gsFile.playerRotation);
+        camera.ConvertPosition(gsFile.cameraPosition);
+        camera.ConvertRotation(gsFile.cameraRotation);
+
     }
 }

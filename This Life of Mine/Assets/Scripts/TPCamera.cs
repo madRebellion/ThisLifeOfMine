@@ -38,4 +38,22 @@ public class TPCamera : MonoBehaviour
         //Keeps the camera a set distance away from the player while following.
         transform.position = playerObject.position - transform.forward * distanceFromPlayer;            
     }
+
+    public void ConvertPosition(float[] camPos)
+    {
+        Vector3 camPosition;
+        camPosition.x = camPos[0];
+        camPosition.y = camPos[1];
+        camPosition.z = camPos[2];
+        transform.position = camPosition;
+    }
+
+    public void ConvertRotation(float[] camRot)
+    {
+        Vector3 cameraRot;
+        cameraRot.x = camRot[0];
+        cameraRot.y = camRot[1];
+        cameraRot.z = camRot[2];
+        transform.eulerAngles = cameraRot;
+    }
 }

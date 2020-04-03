@@ -30,34 +30,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ConvertPosition(float[] pos, float[] camPos)
+    public void ConvertPosition(float[] pos)
     {
         Vector3 position;
         position.x = pos[0];
         position.y = pos[1];
         position.z = pos[2];
         transform.position = position;
-
-        Vector3 camPosition;
-        camPosition.x = camPos[0];
-        camPosition.y = camPos[1];
-        camPosition.z = camPos[2];
-        cam.transform.position = camPosition;
     }
 
-    public void ConvertRotation(float[] rot, float[] camRot)
+    public void ConvertRotation(float[] rot)
     {
         Vector3 playerRot;
         playerRot.x = rot[0];
         playerRot.y = rot[1];
         playerRot.z = rot[2];
         transform.eulerAngles = playerRot;
-
-        Vector3 cameraRot;
-        cameraRot.x = camRot[0];
-        cameraRot.y = camRot[1];
-        cameraRot.z = camRot[2];
-        cam.transform.eulerAngles = cameraRot;
     }
 
 }

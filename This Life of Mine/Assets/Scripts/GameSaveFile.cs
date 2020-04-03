@@ -39,6 +39,6 @@ public class GameSaveFile
         cameraRotation = new float[3];
         cameraRotation[0] = camera.x;
         cameraRotation[1] = camera.y;
-        cameraRotation[2] = camera.z;
+        cameraRotation[2] = camera.z;        
     }
 }

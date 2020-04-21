@@ -10,15 +10,15 @@ public class ConsumableItem : ScriptableObject
     string itemName, itemDesc;
 
     [SerializeField]
-    int monetaryValue, stackMax;
+    int monetaryValue;
 
     [SerializeField]
     float cooldownUseRate;
 
     [SerializeField]
-    ItemType itemType;
-
+    Sprite icon; 
+    
     [SerializeField]
-    Sprite icon, stackedAmount;    
+    ItemType itemType;
 }
 

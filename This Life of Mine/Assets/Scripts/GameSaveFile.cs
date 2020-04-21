@@ -5,13 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class GameSaveFile
 {
-    public int health;
+    //public int health;
     public float[] playerPosition, cameraPosition;
     public float[] playerRotation, cameraRotation;
     
    public GameSaveFile(Player p, TPCamera c)
     {
-        health = p.health;
+        //health = p.health;
         ConvertPosition(p.transform.position, c.transform.position);
         ConvertRotation(p.transform.rotation, c.transform.rotation);
     }

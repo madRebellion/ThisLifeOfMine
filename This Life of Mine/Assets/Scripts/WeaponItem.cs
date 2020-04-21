@@ -10,10 +10,10 @@ public class WeaponItem : ScriptableObject
     string weaponName, weaponDesc;
 
     [SerializeField]
-    int damage, monetaryValue, stackMax;
+    int damage, monetaryValue;
 
     [SerializeField]
-    Sprite icon, stackAmount;
+    Sprite icon;
 
     [SerializeField]
     float attackSpeed;

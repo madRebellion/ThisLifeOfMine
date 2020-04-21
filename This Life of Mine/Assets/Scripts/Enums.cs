@@ -10,12 +10,9 @@
 
     public enum ItemType
     {
-        Healing,
+        Consumable,
         Damage,
-        Buff,
-        Debuff,
         Defence,
-        Important
+        KeyItem
     }
-
 }

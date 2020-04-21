@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,19 +35,30 @@ public class DialogueManager : MonoBehaviour
     //Prevent the player and camera from moving when in dialogue.
     public Player playerMovement;
     public TPCamera cameraMovement;
+
+    public bool isInConversation = false;
     
     //A different way to write a Start function
     void Start() => dialogueSentences = new Queue<string>();
 
+    private void LateUpdate()
+    {
+        if (Input.GetMouseButtonDown(0) && isInConversation)
+        {
+            DisplaySentence();
+        }
+    }
+
     public void ActivateDialogue(Dialogue characterDialogue)
     {
+        isInConversation = true;
         Debug.Log("Talking with " + characterDialogue.charName);
         //Show the cursor and unlock it.
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        //if (Cursor.lockState == CursorLockMode.Locked)
+        //{
+        //    Cursor.lockState = CursorLockMode.None;
+        //    Cursor.visible = true;
+        //}
 
         cameraMovement.enabled = false;
         playerMovement.enabled = false;
@@ -65,6 +77,7 @@ public class DialogueManager : MonoBehaviour
         }
         //Show first/next sentence
         DisplaySentence();
+        
     }
 
     public void DisplaySentence()
@@ -77,13 +90,13 @@ public class DialogueManager : MonoBehaviour
             case 1:
                 //buttonIcon.sprite = finish;
                 //buttonIcon.color = completeColour;
-                buttonText.text = "End";
+                buttonText.text = "- End -";
                 buttonText.color = completeColour;
                 break;
             default:
                 //buttonIcon.sprite = next;
                 //buttonIcon.color = nextColour;
-                buttonText.text = "Next";
+                buttonText.text = "> Next";
                 buttonText.color = nextColour;
                 break;
         }
@@ -108,9 +121,10 @@ public class DialogueManager : MonoBehaviour
 
     void FinishDialogue()
     {
+        isInConversation = false;
         dialogueBox.SetActive(false);
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         playerMovement.enabled = true;
         cameraMovement.enabled = true;
     }

@@ -10,10 +10,10 @@ public class ArmourItem : ScriptableObject
     string armourName, armourDesc;
 
     [SerializeField]
-    int damageResistance, monetaryValue, stackMax;
+    int damageResistance, monetaryValue;
 
     [SerializeField]
-    Sprite icon, stackAmount;
+    Sprite icon;
     
     [SerializeField]
     ItemType itemEffect = ItemType.Defence;

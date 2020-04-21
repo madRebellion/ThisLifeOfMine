@@ -20,7 +20,7 @@ public class GameStateManager : MonoBehaviour
     public GameObject pauseMenu;
 
     public Player player;
-    new public TPCamera camera;
+    public TPCamera camera;
 
     public void PauseGame()
     {
@@ -49,7 +49,7 @@ public class GameStateManager : MonoBehaviour
     public void Load()
     {
         GameSaveFile gsFile = SaveLoad.LoadGame();
-        player.health = gsFile.health;
+        //player.health = gsFile.health;
         player.ConvertPosition(gsFile.playerPosition);
         player.ConvertRotation(gsFile.playerRotation);
         camera.ConvertPosition(gsFile.cameraPosition);

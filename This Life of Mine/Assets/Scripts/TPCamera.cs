@@ -5,7 +5,7 @@ public class TPCamera : MonoBehaviour
     Vector3 currentRotation;
     Vector3 velocity;   
 
-    float distanceFromPlayer = 8f;
+    public float distanceFromPlayer = 8f;
     float yaw;
     float pitch;
     float smoothTime = 0.1f;

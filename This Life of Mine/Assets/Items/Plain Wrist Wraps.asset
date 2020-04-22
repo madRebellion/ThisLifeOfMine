@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9b4a0b1e525da428fef133ebb79564, type: 3}
+  m_Name: Plain Wrist Wraps
+  m_EditorClassIdentifier: 
+  itemName: Plain Wrist Wraps
+  itemDesc: Calling these wrist wraps is a stretch. They are just bandages that you
+    put around your wrists...
+  tradeValue: 1
+  inventoryIcon: {fileID: 21300000, guid: f719a7fce31e912458b65081eea3b3ed, type: 3}
+  itemType: 1

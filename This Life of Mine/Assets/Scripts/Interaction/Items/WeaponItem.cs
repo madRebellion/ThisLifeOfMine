@@ -19,5 +19,5 @@ public class WeaponItem : ScriptableObject
     float attackSpeed;
 
     [SerializeField]
-    ItemType itemEffect = ItemType.Damage;
+    ItemType itemEffect = ItemType.Equipment;
 }

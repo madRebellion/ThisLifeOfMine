@@ -53,18 +53,18 @@ public class DialogueManager : MonoBehaviour
     {
         isInConversation = true;
         Debug.Log("Talking with " + characterDialogue.charName);
-        //Show the cursor and unlock it.
-        //if (Cursor.lockState == CursorLockMode.Locked)
-        //{
-        //    Cursor.lockState = CursorLockMode.None;
-        //    Cursor.visible = true;
-        //}
-
-        cameraMovement.enabled = false;
-        playerMovement.enabled = false;
 
         dialogueBox.SetActive(true);        
         talkPrompt.SetActive(false);
+
+        //Show the cursor and unlock it.
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            cameraMovement.enabled = false;
+            playerMovement.enabled = false;
+        }
                 
         namePlate.text = characterDialogue.charName;
        
@@ -121,12 +121,12 @@ public class DialogueManager : MonoBehaviour
 
     void FinishDialogue()
     {
-        isInConversation = false;
-        dialogueBox.SetActive(false);
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         playerMovement.enabled = true;
         cameraMovement.enabled = true;
+        isInConversation = false;
+        dialogueBox.SetActive(false);
     }
 
 }

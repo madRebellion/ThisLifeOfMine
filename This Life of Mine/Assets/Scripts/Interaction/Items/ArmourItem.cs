@@ -16,5 +16,5 @@ public class ArmourItem : ScriptableObject
     Sprite icon;
     
     [SerializeField]
-    ItemType itemEffect = ItemType.Defence;
+    ItemType itemEffect = ItemType.Equipment;
 }

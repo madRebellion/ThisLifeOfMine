@@ -13,7 +13,7 @@ public class DialogueNPC : Interactable
 
     private void FixedUpdate()
     {
-        CalculateDistanceAway(transform);
+        //CalculateDistanceAway(transform);
     }
 
     void ChangeID()

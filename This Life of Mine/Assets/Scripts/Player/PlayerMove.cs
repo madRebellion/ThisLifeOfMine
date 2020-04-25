@@ -34,13 +34,13 @@ public class PlayerMove : MonoBehaviour
     //    }
     //}
 
-    //Rotate the player to look at an object when interacting with it.
+    ////Rotate the player to look at an object when interacting with it.
     //public void LookAtTarget(Transform target)
     //{
     //    Vector3 lookDirection = (target.position - transform.position).normalized;
     //    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(lookDirection.x, 0f, lookDirection.z));
     //    //Instead of snapping to a rotation we want to spherically interpolate with a certain speed.
-    //    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);       
+    //    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
     //}
 
     public void MoveCharacter()

@@ -20,7 +20,7 @@ public class HUDManager : MonoBehaviour
     public GameObject collectUI;
 
     public Player player;
-    ItemPickUp item;
+    //ItemPickUp item;
 
     [SerializeField]
     GameObject popUpBox;
@@ -29,32 +29,53 @@ public class HUDManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI descriptionText;
 
+    #region Show/Hide Prompts
+    public void ShowPrompt(ItemPickUp item)
+    {
+        collectUI.SetActive(true);
+    }
+
+    public void ShowPrompt(DialogueNPC npc)
+    {
+        talkUI.SetActive(true);
+    }
+
+    public void HidePrompt(ItemPickUp item)
+    {
+        collectUI.SetActive(false);
+    }
+
+    public void HidePrompt(DialogueNPC npc)
+    {
+        talkUI.SetActive(false);
+    }
+    #endregion
+
     public void DisplayItemPopUp(ItemPickUp _item)
     {
-        item = _item;
-        item.interacting = true;
+        //player.LookAtTarget(_item.transform);
+        //item = _item;
         collectUI.SetActive(false);        
-        itemNameText.text = item.item.name;
-        descriptionText.text = item.item.itemDesc;
+        itemNameText.text = _item.item.itemBasics.itemName;
+        descriptionText.text = _item.item.itemBasics.itemDesc;
         popUpBox.SetActive(true);
 
         if (Cursor.lockState == CursorLockMode.Locked)
         {
+            Player.cameraController.enabled = false;
+            Player.mover.enabled = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
 
-        Player.cameraController.enabled = false;
-        Player.mover.enabled = false;
     }
 
     public void CloseWindow()
     {
-        popUpBox.SetActive(false);
-        player.CollectItem();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Player.cameraController.enabled = true;
         Player.mover.enabled = true;
+        popUpBox.SetActive(false);
     }
 }

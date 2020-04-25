@@ -4,14 +4,11 @@ using Enums;
 public class Interactable : MonoBehaviour
 {
     public InteractableType ObjectType;
-    //public Transform interactionTransform;
     public Player player;
 
-    public float range = 3f;
-    //public bool interactReady = false;
-
-    public bool interacting = false;
-
+    public delegate void OnInteracted(Transform t);
+    public OnInteracted onInteracted;
+    
     private void Start()
     {
         player = FindObjectOfType<Player>();
@@ -20,24 +17,8 @@ public class Interactable : MonoBehaviour
     public virtual void Interact ()
     {
         Debug.Log("Interacting with " + transform.name);
-        interacting = true;
     }
-
-    protected void CalculateDistanceAway(Transform thisTransform)
-    {
-        float distanceFromPlayer = Vector3.Distance(player.transform.position, thisTransform.position);
-        if (distanceFromPlayer <= range)
-        {
-            if (!interacting)
-            {
-                HUDManager.instance.collectUI.SetActive(true);
-            }
-        }
-        else
-        {
-            HUDManager.instance.collectUI.SetActive(false);
-        }
-    }
+    
     //Called when a change is made in the inspector
     //Sets the tag and adds any components if required
     private void OnValidate()
@@ -66,12 +47,4 @@ public class Interactable : MonoBehaviour
         }
     }
     
-    //private void OnDrawGizmosSelected()
-    //{
-    //    if (interactionTransform == null)
-    //        interactionTransform = transform;
-
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(interactionTransform.position, range);
-    //}
 }

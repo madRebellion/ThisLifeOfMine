@@ -28,7 +28,8 @@ public class Inventory : MonoBehaviour
             return false;
         }
 
-        inventoryItems.Add(i);
+        if (!i.itemBasics.defaultItem)
+            inventoryItems.Add(i);
 
         if (inventoryChangedCallback != null)
             inventoryChangedCallback.Invoke();

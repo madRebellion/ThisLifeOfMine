@@ -11,8 +11,15 @@
     public enum ItemType
     {
         Consumable,
-        Damage,
-        Defence,
+        Equipment,
         KeyItem
+    }
+
+    public enum EquipmentSlot
+    {
+        Weapon,
+        Apparel,
+        Boots,
+        Accessory
     }
 }

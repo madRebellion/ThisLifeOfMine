@@ -6,9 +6,7 @@ using Enums;
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 public class Item : ScriptableObject
 {
-    public string itemName = "Name";
-    public string itemDesc = " ";
-    public int tradeValue;
+    public ItemGenerics itemBasics;
     public Sprite inventoryIcon;
     public ItemType itemType;
 
@@ -16,4 +14,18 @@ public class Item : ScriptableObject
     {
         Debug.Log("Using");
     }
+
+    public void RemoveFromInventory()
+    {
+        Inventory.instance.RemoveItem(this);
+    }
+}
+
+[System.Serializable]
+public class ItemGenerics
+{
+    public string itemName = "Name";
+    public string itemDesc = " ";
+    public int tradeValue;
+    public bool defaultItem;
 }

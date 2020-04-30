@@ -6,54 +6,65 @@ using Enums;
 [RequireComponent(typeof(PlayerMove))]
 public class Player : MonoBehaviour
 {
-    //[SerializeField]
-    //Interactable target;
     public ItemPickUp nearbyItem;
     public DialogueNPC nearbyNpc;
+    public Enemy nearbyEnemy;
     //Container container;
 
     Transform lookTarget;
+    public Transform lockOnTarget;
+
     bool inRange;
+    bool lockedOn = false;
+    
+    public LayerMask mask;
 
-    public float timeInWhileLoop = 0f;
+    public PlayerMove mover;
+    public CameraController cameraController;
 
-    //public float distanceAway;
-
-    // List of objects close to us that we can interact with
-    //-- INTERACTABLE INFO SCRIPT POPULATES THESE LISTS --
-    public static List<GameObject> interactables = new List<GameObject>();
-
-    public static PlayerMove mover;
-    public static CameraController cameraController;
-
-    //public float interactionRange = 3f;
-    //public float distanceAway;
+    //The 'TargetSelector' script populates this list
+    public static List<GameObject> targetableEntites = new List<GameObject>();
+    public static Transform playerTransform;
 
     private void Start()
     {
+        playerTransform = transform;
         mover = GetComponent<PlayerMove>();
         cameraController = Camera.main.GetComponent<CameraController>();
     }
 
     private void Update()
     {
-        //if (nearbyItem != null)
-        //{
-        //    if (nearbyItem.interacting)
-        //        LookAtTarget(nearbyItem.transform);
+        Ray ray = new Ray(cameraController.transform.position + new Vector3(0f, 0f, 5f), cameraController.transform.forward * 10f);
+        RaycastHit hit;
+        Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * 10f);
+        if (Physics.Raycast(ray, out hit, 10f, mask))
+        {            
+            if (hit.transform.tag == "NPC / No Dialogue")
+            {
+                Debug.Log(hit.transform.name);
+                lockOnTarget = hit.transform;           
+            }
+        }
 
-        //        //nearbyItem.Interact();
-        //}
-        //else
-        //{
-        //    mover.MoveCharacter();
-        //}
+        if (lockOnTarget != null && Input.GetKeyDown(KeyCode.L))
+            lockedOn = true;
+
+        if (lockedOn)
+        {
+            cameraController.lockOnTarget = lockOnTarget;
+        }
+        else
+            cameraController.lockOnTarget = null;
+
+        if (inRange && nearbyEnemy != null && Input.GetKeyDown(KeyCode.G))
+        {
+            LookAtTarget(lookTarget);
+            nearbyEnemy.Interact();
+        }
         
         HandleInputs();
 
-        //DrawLinesToInteractables();
-
-        //SortInteractables();
     }
 
     public void LookAtTarget(Transform target)
@@ -89,17 +100,6 @@ public class Player : MonoBehaviour
         nearbyItem.Interact();
     }
 
-    //void DrawLinesToInteractables()
-    //{
-    //    foreach (GameObject gObject in interactables)
-    //    {
-    //        if (gObject != null)
-    //        {
-    //            Debug.DrawLine(transform.position, gObject.transform.position, Color.red);
-    //        }
-    //    }
-    //}
-
     private void OnTriggerEnter(Collider other)
     {
         //if (other.GetComponent<Interactable>())
@@ -126,6 +126,11 @@ public class Player : MonoBehaviour
                 lookTarget = nearbyNpc.transform;
                 inRange = true;
                 HUDManager.instance.ShowPrompt(nearbyNpc);
+                break;
+            case "NPC / No Dialogue":
+                nearbyEnemy = other.gameObject.GetComponent<Enemy>();
+                lookTarget = nearbyEnemy.transform;
+                inRange = true;
                 break;
             default:
                 break;
@@ -167,49 +172,5 @@ public class Player : MonoBehaviour
         playerRot.z = rot[2];
         transform.eulerAngles = playerRot;
     }
-
-    //private void SortInteractables()
-    //{
-    //    if (interactables != null)
-    //    {
-    //        foreach (GameObject gObject in interactables)
-    //        {
-    //            if (gObject != null)
-    //            {
-    //                float distanceAway = Vector3.Distance(gObject.transform.position, transform.position);
-    //                Debug.DrawLine(transform.position, gObject.transform.position, Color.red);
-
-    //                //if (distanceAway <= interactionRange)
-    //                //{
-    //                //Debug.Log("In range. Adding component...");
-    //                switch (gObject.tag)
-    //                {
-    //                    case "Item":
-    //                        if (!nearbyItems.Contains(gObject.GetComponent<ItemPickUp>()))
-    //                            nearbyItems.Add(gObject.GetComponent<ItemPickUp>());
-    //                        //Debug.Log("Item added.");
-    //                        break;
-    //                    case "NPC / Dialogue":
-    //                        if (!nearbyNpcs.Contains(gObject.GetComponent<DialogueNPC>()))
-    //                            nearbyNpcs.Add(gObject.GetComponent<DialogueNPC>());
-    //                        //Debug.Log("NPC added.");
-    //                        break;
-    //                    default:
-    //                        break;
-    //                }
-
-    //                //}                   
-    //            }
-    //        }
-    //    }
-    //}
-
-    //public void RemoveFromItemList(ItemPickUp o)
-    //{
-    //    nearbyItems.Remove(o);
-    //}
-    //public void RemoveFromNPCList(DialogueNPC o)
-    //{
-    //    nearbyNpcs.Remove(o);
-    //}
+   
 }

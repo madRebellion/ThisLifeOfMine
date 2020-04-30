@@ -4,6 +4,7 @@
     {
         GenericNPC,
         DialogueNPC,
+        Enemy,
         WorldItem,
         Container
     }

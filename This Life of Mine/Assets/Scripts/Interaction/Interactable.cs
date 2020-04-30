@@ -41,6 +41,9 @@ public class Interactable : MonoBehaviour
             case InteractableType.Container:
                 gameObject.tag = "Container";
                 break;
+            case InteractableType.Enemy:
+                gameObject.tag = "Enemy";
+                break;
             default:
                 gameObject.tag = "Untagged";
                 break;

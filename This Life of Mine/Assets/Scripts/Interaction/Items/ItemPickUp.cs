@@ -14,12 +14,6 @@ public class ItemPickUp : Interactable
         CollectItem();
     }
 
-    //private void Update()
-    //{
-    //    if (interacting)
-    //        Interact();
-    //}
-
     public void DetermineItem()
     {
         item.itemBasics = ReadFile();

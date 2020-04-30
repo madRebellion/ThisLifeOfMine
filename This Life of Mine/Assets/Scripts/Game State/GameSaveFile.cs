@@ -6,10 +6,10 @@ using UnityEngine;
 public class GameSaveFile
 {
     //public int health;
-    public float[] playerPosition, cameraPosition;
-    public float[] playerRotation, cameraRotation;
+    public float[] playerPosition, playerRotation;
+    public float[] cameraPosition, cameraRotation;
     
-   public GameSaveFile(Player p, CameraController c)
+    public GameSaveFile(Player p, CameraController c)
     {
         //health = p.health;
         ConvertPosition(p.transform.position, c.transform.position);

@@ -2,17 +2,19 @@
 
 public class CameraController : MonoBehaviour
 {
-    Vector3 currentRotation;
+    Vector3 currentPosition;
     Vector3 velocity;
-
+    
     public float distanceFromPlayer = 8f;
     float yaw;
     float pitch;
     float smoothTime = 0.1f;
 
-    public Transform playerObject;
-
+    public Transform player;
+    public Transform lockOnTarget;
+    
     public float mouseSensitivity;
+    public bool isLockingOn = false;
 
     void Start()
     {
@@ -23,20 +25,34 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        if (isLockingOn)
+            LookAtTarget(lockOnTarget);
+        else
+            MoveCamera();
+
+        //Keeps the camera a set distance away from the player while following.
+        transform.position = player.position + Vector3.up * 3.7f - (transform.forward * distanceFromPlayer);
+    }
+
+    void MoveCamera()
+    {
         //Yaw is looking left and right.
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         //Pitch is looking up and down. Inverted for some reason. Works as intended but can be changed if people prefer the inverted controls.
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-
         //Prevents the camera from completely rolling under or over the player.
         pitch = Mathf.Clamp(pitch, -10f, 45f);
 
-        //Smoothly rotate our current rotation to the target rotation (new Vector3(...)) as defined by the pitch and yaw of the camera.
-        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref velocity, smoothTime);
-        transform.eulerAngles = currentRotation;
+        currentPosition = Vector3.SmoothDamp(currentPosition, new Vector3(pitch, yaw), ref velocity, smoothTime);
+        transform.eulerAngles = currentPosition;      
+    }
 
-        //Keeps the camera a set distance away from the player while following.
-        transform.position = playerObject.position - transform.forward * distanceFromPlayer;
+    public void LookAtTarget(Transform target)
+    {
+        Vector3 lookDirection = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(lookDirection.x, 0f, lookDirection.z));
+        //Instead of snapping to a rotation we want to spherically interpolate with a certain speed.        
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
     }
 
     public void ConvertPosition(float[] camPos)

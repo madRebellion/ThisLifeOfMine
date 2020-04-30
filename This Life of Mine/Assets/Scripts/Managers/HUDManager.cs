@@ -62,8 +62,8 @@ public class HUDManager : MonoBehaviour
 
         if (Cursor.lockState == CursorLockMode.Locked)
         {
-            Player.cameraController.enabled = false;
-            Player.mover.enabled = false;
+            player.cameraController.enabled = false;
+            player.mover.enabled = false;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
@@ -74,8 +74,8 @@ public class HUDManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Player.cameraController.enabled = true;
-        Player.mover.enabled = true;
+        player.cameraController.enabled = true;
+        player.mover.enabled = true;
         popUpBox.SetActive(false);
     }
 }

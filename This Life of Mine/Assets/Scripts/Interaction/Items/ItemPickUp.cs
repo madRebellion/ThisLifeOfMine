@@ -10,6 +10,7 @@ public class ItemPickUp : Interactable
     public override void Interact()
     {
         base.Interact();
+        PlayerManager.instance.player.mover.anim.SetTrigger("PickUp");
         HUDManager.instance.DisplayItemPopUp(this);
         CollectItem();
     }
@@ -21,7 +22,7 @@ public class ItemPickUp : Interactable
 
     void CollectItem()
     {
-        Debug.Log("Picked up " + gameObject.name);        
+        Debug.Log("Picked up " + gameObject.name);
         bool pickedUp = Inventory.instance.AddItem(item);
         if (pickedUp)
         {

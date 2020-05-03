@@ -4,44 +4,22 @@ public class PlayerMove : MonoBehaviour
 {
     Vector3 input, inputDirection;
     Transform camera;
-    //public Transform lookTarget;
 
-    Animator anim;
+    public Animator anim;
 
     float rotationTarget;
     float rotationVelocity;
     float rotationSpeed = 0.1f;
     float speed;
-
-    //public bool inRange = false;
-
+    
+    public float animationTime = 10f;
+    public int prevSeed, seed;
+    
     private void Awake()
     {
         camera = Camera.main.transform;
         anim = GetComponentInChildren<Animator>();
     }
-
-    //private void Update()
-    //{
-    //    if (inRange && Input.GetKeyDown(KeyCode.E))
-    //    {
-    //        lookTarget.GetComponent<DialogueNPC>().StartDialogue();
-    //        LookAtTarget(lookTarget);
-    //    }
-    //    else
-    //    {
-    //        MoveCharacter();
-    //    }
-    //}
-
-    ////Rotate the player to look at an object when interacting with it.
-    //public void LookAtTarget(Transform target)
-    //{
-    //    Vector3 lookDirection = (target.position - transform.position).normalized;
-    //    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(lookDirection.x, 0f, lookDirection.z));
-    //    //Instead of snapping to a rotation we want to spherically interpolate with a certain speed.
-    //    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
-    //}
 
     public void MoveCharacter()
     {
@@ -58,33 +36,36 @@ public class PlayerMove : MonoBehaviour
 
         }
 
-        speed = (Input.GetKey(KeyCode.LeftShift) ? 6f : 2f) * inputDirection.magnitude;
+        speed = (Input.GetKey(KeyCode.LeftShift) ? 6f : 1.8f) * inputDirection.magnitude;
 
-        transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        transform.position += transform.forward * speed * Time.deltaTime;
+        //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
 
         float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f) * inputDirection.magnitude;
         anim.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
+
+        if (animSpeed < 0.1f && !HUDManager.instance.isInteracting)
+        {
+            IdleAnimationsController();
+        }else
+        {
+            seed = 0;
+            animationTime = 8f;
+        }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag == "NPC / Dialogue")
-    //    {
-    //        Debug.Log(other.gameObject.name);
-    //        DialogueManager.Instance.talkPrompt.SetActive(true);
-    //        lookTarget = other.gameObject.transform;
-    //        inRange = true;
-    //        other.gameObject.GetComponent<DialogueNPC>().CollectDialogue();
-    //    }
-    //}
+    void IdleAnimationsController()
+    {
+        animationTime -= 1f * Time.deltaTime;
 
-    //private void OnTriggerExit(Collider other)
-    //{
-    //    if (other.tag == "NPC / Dialogue")
-    //    {
-    //        DialogueManager.Instance.talkPrompt.SetActive(false);
-    //        lookTarget = null;
-    //        inRange = false;
-    //    }
-    //}
+        if (animationTime <= 0)
+        {
+            prevSeed = seed;
+            seed = Random.Range(0, 3);
+            animationTime = Random.Range(5f, 15f);
+        }
+
+        anim.SetFloat("IdleSeed", seed, 0.2f, Time.deltaTime);
+    }
+
 }

@@ -11,17 +11,27 @@ public class Player : MonoBehaviour
     public Enemy nearbyEnemy;
     //Container container;
 
-    Transform lookTarget;
+    public Transform lookTarget;
     public Transform lockOnTarget;
+
+    public Material eyesOpenMaterial, eyesClosedMaterial;
+
+    public SkinnedMeshRenderer skinnedMeshRenderer;
 
     bool inRange;
     bool lockedOn = false;
+
+    public bool combatMode = false;
+    bool waving = false;
+    public float waitTime = 1.05f;
     
     public LayerMask mask;
 
     public PlayerMove mover;
     public CameraController cameraController;
 
+    public Animator animator;
+    
     //The 'TargetSelector' script populates this list
     public static List<GameObject> targetableEntites = new List<GameObject>();
     public static Transform playerTransform;
@@ -51,9 +61,7 @@ public class Player : MonoBehaviour
             lockedOn = true;
 
         if (lockedOn)
-        {
             cameraController.lockOnTarget = lockOnTarget;
-        }
         else
             cameraController.lockOnTarget = null;
 
@@ -62,7 +70,19 @@ public class Player : MonoBehaviour
             LookAtTarget(lookTarget);
             nearbyEnemy.Interact();
         }
-        
+
+        if (waving)
+        {
+            waitTime -= 1f * Time.deltaTime;
+
+            if (waitTime <= 0f)
+            {
+                skinnedMeshRenderer.sharedMaterial = eyesOpenMaterial;
+                waitTime = 1.05f;
+                waving = false;
+            }
+        }
+
         HandleInputs();
 
     }
@@ -78,40 +98,55 @@ public class Player : MonoBehaviour
 
     void HandleInputs()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             GameStateManager.instance.isPaused = !GameStateManager.instance.isPaused;
             GameStateManager.instance.PauseGame();
         }
         if (inRange && Input.GetKeyDown(KeyCode.E))
-          {
-            LookAtTarget(lookTarget);
-            lookTarget.GetComponent<ItemPickUp>().Interact();
+        {
+            if (nearbyItem != null)
+                nearbyItem.Interact();
+            else if (nearbyNpc != null)
+            {
+                nearbyNpc.Interact();
+                animator.SetTrigger("SayHello");
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            mover.anim.SetTrigger("Jump");
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            combatMode = !combatMode;
+            animator.SetBool("CombatMode", combatMode);
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            waving = true;
+            animator.SetTrigger("SayHello");
+            skinnedMeshRenderer.sharedMaterial = eyesClosedMaterial;
         }
         else
         {
-            mover.MoveCharacter();
+            if (!HUDManager.instance.isInteracting)
+               mover.MoveCharacter();           
         }
     }
 
     void InteractWithItem()
     {
-        LookAtTarget(nearbyItem.transform);
         nearbyItem.Interact();
+    }
+
+    public void StopAnimating()
+    {
+        animator.SetFloat("Speed", 0f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.GetComponent<Interactable>())
-        //    target = other.GetComponent<Interactable>();
-
-        //if (other.tag == "NPC / Dialogue")
-        //{
-        //    Debug.Log(other.gameObject.name);
-        //    DialogueManager.Instance.talkPrompt.SetActive(true);
-        //    player.lookTarget = other.gameObject.transform;
-        //    other.gameObject.GetComponent<DialogueNPC>().CollectDialogue();
-        //}
         switch (other.tag)
         {
             case "Item":
@@ -126,6 +161,7 @@ public class Player : MonoBehaviour
                 lookTarget = nearbyNpc.transform;
                 inRange = true;
                 HUDManager.instance.ShowPrompt(nearbyNpc);
+                nearbyNpc.CollectDialogue();
                 break;
             case "NPC / No Dialogue":
                 nearbyEnemy = other.gameObject.GetComponent<Enemy>();
@@ -135,7 +171,6 @@ public class Player : MonoBehaviour
             default:
                 break;
         }
-
     }
 
     private void OnTriggerExit(Collider other)
@@ -145,10 +180,13 @@ public class Player : MonoBehaviour
             case "Item":
                 HUDManager.instance.HidePrompt(nearbyItem);
                 nearbyItem = null;
+                lookTarget = null;
+                inRange = false;
                 break;
             case "NPC / Dialogue":
                 HUDManager.instance.HidePrompt(nearbyNpc);
                 nearbyNpc = null;
+                lookTarget = null;
                 break;
             default:
                 break;

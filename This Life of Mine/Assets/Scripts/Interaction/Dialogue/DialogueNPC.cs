@@ -6,6 +6,7 @@ using UnityEngine;
 //Attach this to characters you want the player to talk to.
 public class DialogueNPC : Interactable
 {
+    [SerializeField]
     Dialogue npcDialogue;
             
     int dialogueID = 1;
@@ -14,6 +15,12 @@ public class DialogueNPC : Interactable
     private void FixedUpdate()
     {
         //CalculateDistanceAway(transform);
+    }
+
+    public override void Interact()
+    {
+        base.Interact();
+        StartDialogue();
     }
 
     void ChangeID()
@@ -39,12 +46,15 @@ public class DialogueNPC : Interactable
     public void CollectDialogue()
     {
         npcDialogue = ReadFile();
-        Debug.Log("File read successfully. " + npcDialogue.charName + "s file loaded");
+        if (npcDialogue != null)
+            Debug.Log("File read successfully. " + npcDialogue.charName + "s file loaded");        
+        else
+            Debug.Log("Failed to get dialogue");
     }
 
     Dialogue ReadFile()
     {
-        string streamingPath = Application.streamingAssetsPath + "/Dialogue/" + gameObject.name + "/" + dialogueID + " " + gameObject.name + ".json";
+        string streamingPath = Application.streamingAssetsPath + "/Dialogue Scripts/" + gameObject.name + "/" + dialogueID + " " + gameObject.name + ".json";
         string jsonFile = File.ReadAllText(streamingPath);
         Dialogue npc = JsonUtility.FromJson<Dialogue>(jsonFile);
         return npc;

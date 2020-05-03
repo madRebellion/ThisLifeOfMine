@@ -20,7 +20,6 @@ public class HUDManager : MonoBehaviour
     public GameObject collectUI;
 
     public Player player;
-    //ItemPickUp item;
 
     [SerializeField]
     GameObject popUpBox;
@@ -28,6 +27,16 @@ public class HUDManager : MonoBehaviour
     TextMeshProUGUI itemNameText;
     [SerializeField]
     TextMeshProUGUI descriptionText;
+    
+    public bool isInteracting = false;
+
+    private void LateUpdate()
+    {
+        if (Input.GetMouseButtonDown(0) && isInteracting)
+        {
+            CloseWindow();
+        }
+    }
 
     #region Show/Hide Prompts
     public void ShowPrompt(ItemPickUp item)
@@ -53,20 +62,13 @@ public class HUDManager : MonoBehaviour
 
     public void DisplayItemPopUp(ItemPickUp _item)
     {
-        //player.LookAtTarget(_item.transform);
-        //item = _item;
-        collectUI.SetActive(false);        
+        collectUI.SetActive(false);
+        isInteracting = true;
         itemNameText.text = _item.item.itemBasics.itemName;
         descriptionText.text = _item.item.itemBasics.itemDesc;
         popUpBox.SetActive(true);
-
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            player.cameraController.enabled = false;
-            player.mover.enabled = false;
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
+        player.cameraController.enabled = false;
+        player.mover.enabled = false;
 
     }
 
@@ -77,5 +79,6 @@ public class HUDManager : MonoBehaviour
         player.cameraController.enabled = true;
         player.mover.enabled = true;
         popUpBox.SetActive(false);
+        isInteracting = false;
     }
 }

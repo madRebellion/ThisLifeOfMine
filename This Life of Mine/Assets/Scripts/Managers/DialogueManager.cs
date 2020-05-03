@@ -24,7 +24,8 @@ public class DialogueManager : MonoBehaviour
     Queue<string> dialogueSentences;
 
     //Accessing the text element of the Text Mesh Pro component for use in UI
-    public TextMeshProUGUI namePlate, sentencePlate, buttonText;
+
+    public Text nameText, sentenceText, buttonText;
 
     public GameObject talkPrompt, itemPrompt, dialogueBox;
 
@@ -52,21 +53,25 @@ public class DialogueManager : MonoBehaviour
     public void ActivateDialogue(Dialogue characterDialogue)
     {
         isInConversation = true;
+        HUDManager.instance.isInteracting = true;
         Debug.Log("Talking with " + characterDialogue.charName);
 
         dialogueBox.SetActive(true);        
         talkPrompt.SetActive(false);
 
         //Show the cursor and unlock it.
-        if (Cursor.lockState == CursorLockMode.Locked)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            cameraMovement.enabled = false;
-            playerMovement.enabled = false;
-        }
-                
-        namePlate.text = characterDialogue.charName;
+        //if (Cursor.lockState == CursorLockMode.Locked)
+        //{
+        //    Cursor.lockState = CursorLockMode.None;
+        //    Cursor.visible = true;
+        //    cameraMovement.enabled = false;
+        //    playerMovement.enabled = false;
+        //}
+
+        cameraMovement.enabled = false;
+        playerMovement.enabled = false;
+
+        nameText.text = characterDialogue.charName;
        
         dialogueSentences.Clear();
         
@@ -111,10 +116,10 @@ public class DialogueManager : MonoBehaviour
     //Animate each letter appearing on scren rather than just throwing the sentence on screen all at once.
     IEnumerator TypeSentence(string sentence)
     {
-        sentencePlate.text = "";//Make sure that the UI is empty before adding new elements to it.   
+        sentenceText.text = "";//Make sure that the UI is empty before adding new elements to it.   
         foreach (char letter in sentence.ToCharArray())//Convert the sentence into an array of characters...
         {
-            sentencePlate.text += letter;              //...then add each of the letters one by one to the UI.
+            sentenceText.text += letter;              //...then add each of the letters one by one to the UI.
             yield return new WaitForSeconds(0.03f);    //This can be seen as the text speed. This should be a variable that player can change but for now lets hard code it in.
         }
     }
@@ -126,6 +131,7 @@ public class DialogueManager : MonoBehaviour
         playerMovement.enabled = true;
         cameraMovement.enabled = true;
         isInConversation = false;
+        HUDManager.instance.isInteracting = false;
         dialogueBox.SetActive(false);
     }
 

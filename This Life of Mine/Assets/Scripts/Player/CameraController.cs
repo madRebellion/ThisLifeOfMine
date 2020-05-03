@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
             MoveCamera();
 
         //Keeps the camera a set distance away from the player while following.
-        transform.position = player.position + Vector3.up * 3.7f - (transform.forward * distanceFromPlayer);
+        //transform.position = player.position + Vector3.up * 1.7f - (transform.forward * distanceFromPlayer);
     }
 
     void MoveCamera()
@@ -44,7 +44,8 @@ public class CameraController : MonoBehaviour
         pitch = Mathf.Clamp(pitch, -10f, 45f);
 
         currentPosition = Vector3.SmoothDamp(currentPosition, new Vector3(pitch, yaw), ref velocity, smoothTime);
-        transform.eulerAngles = currentPosition;      
+        transform.eulerAngles = currentPosition;
+        transform.position = player.position - (transform.forward * distanceFromPlayer);
     }
 
     public void LookAtTarget(Transform target)

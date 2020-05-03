@@ -1,6 +1,9 @@
 {
-  "itemName": "Plain Gloves",
-  "itemDesc": "Bandages wrapped around the hands. Calling them gloves is a huge stretch.",
-  "tradeValue": 0,
-  "defaultItem": 0
+  "id": 1,
+  "charName": "Christopher",
+  "charSentence": [
+    "Hi Keena! How ya liking your new environment?",
+    "Pretty cool eh?",
+    "Make sure you don't get lost, spend some time getting to know the area."
+  ]
 }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public DialogueNPC nearbyNpc;
     public Enemy nearbyEnemy;
     //Container container;
-
+    
     public Transform lookTarget;
     public Transform lockOnTarget;
 
@@ -24,7 +24,10 @@ public class Player : MonoBehaviour
     public bool combatMode = false;
     bool waving = false;
     public float waitTime = 1.05f;
-    
+    public bool jumping = false;
+
+    public float jumpHeight = 1.2f;
+
     public LayerMask mask;
 
     public PlayerMove mover;
@@ -110,30 +113,45 @@ public class Player : MonoBehaviour
             else if (nearbyNpc != null)
             {
                 nearbyNpc.Interact();
-                animator.SetTrigger("SayHello");
+                mover.anim.SetTrigger("SayHello");
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            mover.anim.SetTrigger("Jump");
+            mover.anim.SetBool("Jump", true);
+            mover.Jump();
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
             combatMode = !combatMode;
-            animator.SetBool("CombatMode", combatMode);
+            mover.anim.SetBool("CombatMode", combatMode);
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
             waving = true;
-            animator.SetTrigger("SayHello");
+            mover.anim.SetTrigger("SayHello");
             skinnedMeshRenderer.sharedMaterial = eyesClosedMaterial;
         }
-        else
+        if (Input.GetMouseButtonDown(0))
         {
-            if (!HUDManager.instance.isInteracting)
-               mover.MoveCharacter();           
+            mover.anim.SetTrigger("Attack");
         }
+        else if (!HUDManager.instance.isInteracting)
+            mover.Move();
     }
+
+    //private void FixedUpdate()
+   // {
+        //if (!HUDManager.instance.isInteracting)
+        //    mover.RbMove();
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    float jumpVelocity = Mathf.Sqrt((float)(-2 * -9.81 * jumpHeight));
+            
+        //    mover.anim.SetTrigger("Jump");
+        //}
+    //}
 
     void InteractWithItem()
     {
@@ -142,7 +160,7 @@ public class Player : MonoBehaviour
 
     public void StopAnimating()
     {
-        animator.SetFloat("Speed", 0f);
+        mover.anim.SetFloat("Speed", 0f);
     }
 
     private void OnTriggerEnter(Collider other)

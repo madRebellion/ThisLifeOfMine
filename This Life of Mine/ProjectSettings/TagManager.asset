@@ -9,6 +9,8 @@ TagManager:
   - NPC / No Dialogue
   - Container
   - Enemy
+  - Grandad Tree
+  - Ground
   layers:
   - Default
   - TransparentFX

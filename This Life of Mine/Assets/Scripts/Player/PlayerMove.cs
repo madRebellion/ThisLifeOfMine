@@ -2,26 +2,79 @@
 
 public class PlayerMove : MonoBehaviour
 {
-    Vector3 input, inputDirection;
+    Vector3 input, inputDirection, rbRotation;
     Transform camera;
 
     public Animator anim;
+
+    public Rigidbody rb;
+
+    public CharacterController characterController;
 
     float rotationTarget;
     float rotationVelocity;
     float rotationSpeed = 0.1f;
     float speed;
-    
+    float velocityY;
+
+    public bool airbourne = false;
+
+    public float jumpHeight = 1.5f;
     public float animationTime = 10f;
     public int prevSeed, seed;
+    public float gravity = -12f;
     
     private void Awake()
     {
         camera = Camera.main.transform;
         anim = GetComponentInChildren<Animator>();
+        characterController = GetComponent<CharacterController>();
     }
 
-    public void MoveCharacter()
+    private void Update()
+    {
+        if (!characterController.isGrounded)
+        {
+            airbourne = true;
+            anim.SetBool("Airbourne", airbourne);
+        }
+        else
+        {
+            airbourne = false;
+            anim.SetBool("Airbourne", airbourne);
+            anim.SetBool("Jump", false);
+        }
+
+        FindGround();
+    }
+
+    public void Jump()
+    {
+        if (characterController.isGrounded)
+        {
+            float jumpVel = Mathf.Sqrt(-2f * gravity * jumpHeight);
+            velocityY = jumpVel;            
+        }
+    }
+
+    void FindGround()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.position + Vector3.down, out hit, 0.3f))
+        {
+            Debug.Log(hit.transform.name);
+        }
+    }
+
+    //Vector3 Jump ()
+    //{
+    //    float jumpVelocity = Mathf.Sqrt(-2f * -9.81f * jumpHeight);
+    //    Vector3 yVelocity = Vector3.up * jumpVelocity;
+    //    return yVelocity;
+    //}
+
+    // Input and animation control
+    public void Move()
     {
         input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         inputDirection = input.normalized;
@@ -33,26 +86,52 @@ public class PlayerMove : MonoBehaviour
             rotationTarget = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
             //Don't snap to a direction, rotate smoothly towards the new direction.
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
-
         }
 
         speed = (Input.GetKey(KeyCode.LeftShift) ? 6f : 1.8f) * inputDirection.magnitude;
 
-        transform.position += transform.forward * speed * Time.deltaTime;
-        //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+        velocityY += Time.deltaTime * gravity;
 
-        float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f) * inputDirection.magnitude;
+        Vector3 velocity = transform.forward * speed + Vector3.up * velocityY;
+
+        characterController.Move(velocity * Time.deltaTime);
+
+        speed = new Vector2(characterController.velocity.x, characterController.velocity.z).magnitude;
+
+        if (characterController.isGrounded)
+        {
+            velocityY = 0f;
+        }
+
+        float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? speed/6f : speed/1.8f * 0.5f);
         anim.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
 
         if (animSpeed < 0.1f && !HUDManager.instance.isInteracting)
         {
             IdleAnimationsController();
-        }else
+        }
+        else
         {
             seed = 0;
             animationTime = 8f;
         }
     }
+
+    // Rigidbody movement
+    //public void RbMove()
+    //{
+    //    if (inputDirection != Vector3.zero && !HUDManager.instance.isInteracting)
+    //    {
+    //        //Mathf.ATan2 contains functionality for when the x value is 0 and so throws the correct rotation and not a division by zero error.
+    //        rotationTarget = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+    //        //Don't snap to a direction, rotate smoothly towards the new direction.
+    //        transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+    //        rbRotation = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+    //        rb.rotation = Quaternion.Euler(rbRotation);
+    //        rb.MovePosition(input * speed * Time.fixedDeltaTime);
+    //        rb.position += transform.forward * speed * Time.deltaTime;
+    //    }
+    //}
 
     void IdleAnimationsController()
     {
@@ -68,4 +147,38 @@ public class PlayerMove : MonoBehaviour
         anim.SetFloat("IdleSeed", seed, 0.2f, Time.deltaTime);
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 0.3f);
+    }
+
 }
+
+//Old Movement using transform
+//input = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+//inputDirection = input.normalized;
+
+////Prevents a division by 0. Only rotate when we move.
+//if (inputDirection != Vector3.zero)
+//{
+//    //Mathf.ATan2 contains functionality for when the x value is 0 and so throws the correct rotation and not a division by zero error.
+//    rotationTarget = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
+//    //Don't snap to a direction, rotate smoothly towards the new direction.
+//    transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+//}
+
+//speed = (Input.GetKey(KeyCode.LeftShift) ? 6f : 1.8f) * inputDirection.magnitude;
+
+//transform.position += transform.forward * speed * Time.deltaTime;
+
+//float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f) * inputDirection.magnitude;
+//anim.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
+
+//if (animSpeed < 0.1f && !HUDManager.instance.isInteracting)
+//{
+//    IdleAnimationsController();
+//}else
+//{
+//    seed = 0;
+//    animationTime = 8f;
+//}

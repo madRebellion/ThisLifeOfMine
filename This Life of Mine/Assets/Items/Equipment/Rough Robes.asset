@@ -17,7 +17,7 @@ MonoBehaviour:
     itemDesc: Robes woven with hemp. Rough to the touch but surprisingly durable.
     tradeValue: 4
     defaultItem: 0
-  inventoryIcon: {fileID: 21300000, guid: 6775414c2b1881047b618268b39ddb4a, type: 3}
+  inventoryIcon: {fileID: 0}
   itemType: 1
   equipmentSlot: 1
   coveredMeshRegions: 0000000002000000

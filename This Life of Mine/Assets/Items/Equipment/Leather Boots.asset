@@ -18,7 +18,7 @@ MonoBehaviour:
       job.
     tradeValue: 2
     defaultItem: 0
-  inventoryIcon: {fileID: 21300000, guid: 9e62e888465395343a7bfa9256d04e4b, type: 3}
+  inventoryIcon: {fileID: 0}
   itemType: 1
   equipmentSlot: 2
   coveredMeshRegions: 00000000

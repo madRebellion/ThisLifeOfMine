@@ -18,7 +18,7 @@ MonoBehaviour:
       to remove though - makes you a hardy woman!.
     tradeValue: 0
     defaultItem: 0
-  inventoryIcon: {fileID: 21300000, guid: a99fb4aff215e2f4ab9e0de11492f5ed, type: 3}
+  inventoryIcon: {fileID: 0}
   itemType: 1
   equipmentSlot: 3
   coveredMeshRegions: 

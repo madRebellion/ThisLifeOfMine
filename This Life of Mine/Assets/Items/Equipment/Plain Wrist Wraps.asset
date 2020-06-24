@@ -17,7 +17,7 @@ MonoBehaviour:
     itemDesc: ' '
     tradeValue: 0
     defaultItem: 0
-  inventoryIcon: {fileID: 21300000, guid: 33edcd3f4f927204799aedb64428bfef, type: 3}
+  inventoryIcon: {fileID: 0}
   itemType: 1
   equipmentSlot: 0
   coveredMeshRegions: 

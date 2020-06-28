@@ -2,13 +2,11 @@
 
 public class PlayerMove : MonoBehaviour
 {
-    Vector3 input, inputDirection, rbRotation;
+    Vector3 input, inputDirection;
     Transform camera;
 
     public Animator anim;
-
-    public Rigidbody rb;
-
+    
     public CharacterController characterController;
 
     float rotationTarget;
@@ -17,7 +15,7 @@ public class PlayerMove : MonoBehaviour
     float speed;
     float velocityY;
 
-    public bool airbourne = false;
+    public bool airbourne;
 
     public float jumpHeight = 1.5f;
     public float animationTime = 10f;
@@ -66,12 +64,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    //Vector3 Jump ()
-    //{
-    //    float jumpVelocity = Mathf.Sqrt(-2f * -9.81f * jumpHeight);
-    //    Vector3 yVelocity = Vector3.up * jumpVelocity;
-    //    return yVelocity;
-    //}
 
     // Input and animation control
     public void Move()
@@ -88,7 +80,7 @@ public class PlayerMove : MonoBehaviour
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
         }
 
-        speed = (Input.GetKey(KeyCode.LeftShift) ? 6f : 1.8f) * inputDirection.magnitude;
+        speed = (Input.GetKey(KeyCode.LeftShift) ? 60f : 1.8f) * inputDirection.magnitude;
 
         velocityY += Time.deltaTime * gravity;
 

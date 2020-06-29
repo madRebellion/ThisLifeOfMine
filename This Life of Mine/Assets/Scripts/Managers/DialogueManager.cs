@@ -24,14 +24,11 @@ public class DialogueManager : MonoBehaviour
     Queue<string> dialogueSentences;
 
     //Accessing the text element of the Text Mesh Pro component for use in UI
-
-    public Text nameText, sentenceText, buttonText;
+    public TextMeshProUGUI charName, charSentence, conversationPrompts;
 
     public GameObject talkPrompt, itemPrompt, dialogueBox;
 
     Color nextColour = new Color(255, 255, 255), completeColour = new Color(0, 198, 0);
-    //public Image buttonIcon;
-    //public Sprite next, finish;
 
     //Prevent the player and camera from moving when in dialogue.
     public Player playerMovement;
@@ -44,7 +41,7 @@ public class DialogueManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(0) && isInConversation)
+        if (Input.GetKeyDown(KeyCode.Q) && isInConversation)
         {
             DisplaySentence();
         }
@@ -59,19 +56,10 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(true);        
         talkPrompt.SetActive(false);
 
-        //Show the cursor and unlock it.
-        //if (Cursor.lockState == CursorLockMode.Locked)
-        //{
-        //    Cursor.lockState = CursorLockMode.None;
-        //    Cursor.visible = true;
-        //    cameraMovement.enabled = false;
-        //    playerMovement.enabled = false;
-        //}
-
         cameraMovement.enabled = false;
         playerMovement.enabled = false;
 
-        nameText.text = characterDialogue.charName;
+        charName.text = characterDialogue.charName;
        
         dialogueSentences.Clear();
         
@@ -93,16 +81,12 @@ public class DialogueManager : MonoBehaviour
                 FinishDialogue();
                 return;
             case 1:
-                //buttonIcon.sprite = finish;
-                //buttonIcon.color = completeColour;
-                buttonText.text = "- End -";
-                buttonText.color = completeColour;
+                conversationPrompts.text = "- End -";
+                conversationPrompts.color = completeColour;
                 break;
             default:
-                //buttonIcon.sprite = next;
-                //buttonIcon.color = nextColour;
-                buttonText.text = "> Next";
-                buttonText.color = nextColour;
+                conversationPrompts.text = "> Next [Q]";
+                conversationPrompts.color = nextColour;
                 break;
         }
 
@@ -114,12 +98,12 @@ public class DialogueManager : MonoBehaviour
     }
 
     //Animate each letter appearing on scren rather than just throwing the sentence on screen all at once.
-    IEnumerator TypeSentence(string sentence)
+    IEnumerator TypeSentence(string newSentence)
     {
-        sentenceText.text = "";//Make sure that the UI is empty before adding new elements to it.   
-        foreach (char letter in sentence.ToCharArray())//Convert the sentence into an array of characters...
+        charSentence.text = "";//Make sure that the UI is empty before adding new elements to it.   
+        foreach (char letter in newSentence.ToCharArray())//Convert the sentence into an array of characters...
         {
-            sentenceText.text += letter;              //...then add each of the letters one by one to the UI.
+            charSentence.text += letter;              //...then add each of the letters one by one to the UI.
             yield return new WaitForSeconds(0.03f);    //This can be seen as the text speed. This should be a variable that player can change but for now lets hard code it in.
         }
     }

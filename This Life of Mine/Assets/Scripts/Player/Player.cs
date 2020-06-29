@@ -13,16 +13,11 @@ public class Player : MonoBehaviour
     
     public Transform lookTarget;
     public Transform lockOnTarget;
-
-    public Material eyesOpenMaterial, eyesClosedMaterial;
-
-    public SkinnedMeshRenderer skinnedMeshRenderer;
-
+    
     bool inRange;
     bool lockedOn = false;
 
     public bool combatMode = false;
-    bool waving = false;
     public float waitTime = 1.05f;
     public bool jumping = false;
 
@@ -74,18 +69,6 @@ public class Player : MonoBehaviour
             nearbyEnemy.Interact();
         }
 
-        if (waving)
-        {
-            waitTime -= 1f * Time.deltaTime;
-
-            if (waitTime <= 0f)
-            {
-                skinnedMeshRenderer.sharedMaterial = eyesOpenMaterial;
-                waitTime = 1.05f;
-                waving = false;
-            }
-        }
-
         HandleInputs();
 
     }
@@ -115,6 +98,7 @@ public class Player : MonoBehaviour
                 nearbyNpc.Interact();
                 mover.anim.SetTrigger("SayHello");
             }
+            
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -125,13 +109,7 @@ public class Player : MonoBehaviour
         {
             combatMode = !combatMode;
             mover.anim.SetBool("CombatMode", combatMode);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            waving = true;
-            mover.anim.SetTrigger("SayHello");
-            skinnedMeshRenderer.sharedMaterial = eyesClosedMaterial;
-        }
+        }      
         if (Input.GetMouseButtonDown(0))
         {
             mover.anim.SetTrigger("Attack");
@@ -139,19 +117,6 @@ public class Player : MonoBehaviour
         else if (!HUDManager.instance.isInteracting)
             mover.Move();
     }
-
-    //private void FixedUpdate()
-   // {
-        //if (!HUDManager.instance.isInteracting)
-        //    mover.RbMove();
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    float jumpVelocity = Mathf.Sqrt((float)(-2 * -9.81 * jumpHeight));
-            
-        //    mover.anim.SetTrigger("Jump");
-        //}
-    //}
 
     void InteractWithItem()
     {

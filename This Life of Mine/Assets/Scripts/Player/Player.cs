@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
         else
             cameraController.lockOnTarget = null;
 
-        if (inRange && nearbyEnemy != null && Input.GetKeyDown(KeyCode.G))
+        if (nearbyEnemy != null && Input.GetKeyDown(KeyCode.G))
         {
             LookAtTarget(lookTarget);
             nearbyEnemy.Interact();
@@ -105,6 +105,10 @@ public class Player : MonoBehaviour
             mover.anim.SetBool("Jump", true);
             mover.Jump();
         }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            mover.anim.SetTrigger("SayHello");
+        }
         if (Input.GetKeyDown(KeyCode.R))
         {
             combatMode = !combatMode;
@@ -113,6 +117,11 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             mover.anim.SetTrigger("Attack");
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            GameStateManager.instance.isPaused = !GameStateManager.instance.isPaused;
+            GameStateManager.instance.MovesMenu();
         }
         else if (!HUDManager.instance.isInteracting)
             mover.Move();
@@ -146,7 +155,7 @@ public class Player : MonoBehaviour
                 HUDManager.instance.ShowPrompt(nearbyNpc);
                 nearbyNpc.CollectDialogue();
                 break;
-            case "NPC / No Dialogue":
+            case "Enemy":
                 nearbyEnemy = other.gameObject.GetComponent<Enemy>();
                 lookTarget = nearbyEnemy.transform;
                 inRange = true;

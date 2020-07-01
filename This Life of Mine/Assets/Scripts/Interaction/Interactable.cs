@@ -4,16 +4,10 @@ using Enums;
 public class Interactable : MonoBehaviour
 {
     public InteractableType ObjectType;
-    public Player player;
 
     public delegate void OnInteracted(Transform t);
     public OnInteracted onInteracted;
-    
-    private void Start()
-    {
-        player = FindObjectOfType<Player>();
-    }
-
+  
     public virtual void Interact ()
     {
         Debug.Log("Interacting with " + transform.name);

@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Enemy : Interactable
 {
-    PlayerManager playerManager;
     EntityStats myStats;
 
     public float distance;
 
     private void Start()
     {
-        playerManager = PlayerManager.instance;
         myStats = GetComponent<EntityStats>();
     }
 
@@ -24,13 +22,13 @@ public class Enemy : Interactable
     {
         base.Interact();
 
-        EntityCombat player = playerManager.player.GetComponent<EntityCombat>();
-        player.AttackTarget(myStats);
+        EntityCombat p = PlayerManager.instance.player.GetComponent<EntityCombat>();
+        p.AttackTarget(myStats);
     }
     
     float DistanceFromPlayer()
     {
-        float distanceFromPlayer = Vector3.Distance(playerManager.player.transform.position, transform.position);
+        float distanceFromPlayer = Vector3.Distance(PlayerManager.instance.player.transform.position, transform.position);
         return distanceFromPlayer;
     }
 }

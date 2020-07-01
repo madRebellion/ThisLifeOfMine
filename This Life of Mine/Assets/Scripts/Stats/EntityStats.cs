@@ -30,6 +30,6 @@ public class EntityStats : MonoBehaviour
 
     public virtual void Death()
     {
-        Debug.Log("Died.");
+        Debug.Log(gameObject.name + "Died.");
     }
 }

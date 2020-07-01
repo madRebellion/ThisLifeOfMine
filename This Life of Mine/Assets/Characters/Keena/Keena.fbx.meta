@@ -51,6 +51,45 @@ ModelImporter:
   - first:
       74: 2693353781181224633
     second: Armature|Rigidbody_JumpLanding
+  - first:
+      74: 2646724620217826704
+    second: Idle01
+  - first:
+      74: 6868592044210321722
+    second: Idle02
+  - first:
+      74: -1573141204151405043
+    second: IdleHead01
+  - first:
+      74: 4787742288682755051
+    second: PickUp
+  - first:
+      74: 2772812811124783404
+    second: Run01
+  - first:
+      74: 4485118894649010602
+    second: Walk01
+  - first:
+      74: 5539831331247536789
+    second: Jump
+  - first:
+      74: 1021171757773622667
+    second: ReadyForCombat
+  - first:
+      74: -2853499011448089534
+    second: Pose_Combat
+  - first:
+      74: 596894949440999893
+    second: Wave Hello
+  - first:
+      74: -1874833832135395341
+    second: MegaPunch
+  - first:
+      74: -1522821469075411347
+    second: Airbourne
+  - first:
+      74: 7573673339968545029
+    second: HeavyLanding
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -66,12 +105,12 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Armature|ReadyForCombat' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'Lower Leg.L' has scale animation
-      that will be discarded.\n\t'Foot.L' has scale animation that will be discarded.\n\t'Lower
-      Leg.R' has scale animation that will be discarded.\n\t'Foot.R' has scale animation
-      that will be discarded.\n"
+    animationImportWarnings: "\nClip 'Armature|Armature|ReadyForCombat|Armature|ReadyForCombat'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'Lower
+      Leg.L' has scale animation that will be discarded.\n\t'Foot.L' has scale animation
+      that will be discarded.\n\t'Lower Leg.R' has scale animation that will be discarded.\n\t'Foot.R'
+      has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -85,8 +124,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|Idle01
-      takeName: Armature|Idle01
+      name: Idle01
+      takeName: Armature|Armature|Idle01|Armature|Idle01
       internalID: 0
       firstFrame: 0
       lastFrame: 199
@@ -114,8 +153,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Idle02
-      takeName: Armature|Idle02
+      name: Idle02
+      takeName: Armature|Armature|Idle02|Armature|Idle02
       internalID: 0
       firstFrame: 0
       lastFrame: 17
@@ -143,8 +182,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|IdleHead01
-      takeName: Armature|IdleHead01
+      name: IdleHead01
+      takeName: Armature|Armature|IdleHead01|Armature|IdleHead01
       internalID: 0
       firstFrame: 0
       lastFrame: 341
@@ -172,8 +211,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Pick Up
-      takeName: Armature|Pick Up
+      name: PickUp
+      takeName: Armature|Armature|PickUp|Armature|PickUp
       internalID: 0
       firstFrame: 0
       lastFrame: 21
@@ -201,8 +240,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Run01
-      takeName: Armature|Run01
+      name: Run01
+      takeName: Armature|Armature|Run01|Armature|Run01
       internalID: 0
       firstFrame: 0
       lastFrame: 16
@@ -230,8 +269,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Walk01
-      takeName: Armature|Walk01
+      name: Walk01
+      takeName: Armature|Armature|Walk01|Armature|Walk01
       internalID: 0
       firstFrame: 0
       lastFrame: 24
@@ -259,8 +298,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Jump
-      takeName: Armature|Jump
+      name: Jump
+      takeName: Armature|Armature|Jump_Root|Armature|Jump_Root
       internalID: 0
       firstFrame: 0
       lastFrame: 29
@@ -288,11 +327,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|ReadyForCombat
-      takeName: Armature|ReadyForCombat
+      name: ReadyForCombat
+      takeName: Armature|Armature|ReadyForCombat|Armature|ReadyForCombat
       internalID: 0
-      firstFrame: 1
-      lastFrame: 5
+      firstFrame: 0
+      lastFrame: 4
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -317,8 +356,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Pose_Combat
-      takeName: Armature|Pose_Combat
+      name: Pose_Combat
+      takeName: Armature|Armature|Pose_Combat|Armature|Pose_Combat
       internalID: 0
       firstFrame: 0
       lastFrame: 1
@@ -346,8 +385,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Wave_Hello
-      takeName: Armature|Wave_Hello
+      name: Wave Hello
+      takeName: Armature|Armature|Wave_Hello|Armature|Wave_Hello
       internalID: 0
       firstFrame: 0
       lastFrame: 30
@@ -375,8 +414,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Mega Punch
-      takeName: Armature|Mega Punch
+      name: MegaPunch
+      takeName: Armature|Armature|Armature|MegaPunch|Armature|MegaPunch
       internalID: 0
       firstFrame: 0
       lastFrame: 9
@@ -404,37 +443,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Rigidbody_Jump
-      takeName: Armature|Rigidbody_Jump
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 29
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Rigidbody_Airbourne
-      takeName: Armature|Rigidbody_Airbourne
+      name: Airbourne
+      takeName: Armature|Armature|Airbourne|Armature|Airbourne
       internalID: 0
       firstFrame: 0
       lastFrame: 19
@@ -462,11 +472,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Rigidbody_JumpLanding
-      takeName: Armature|Rigidbody_JumpLanding
+      name: HeavyLanding
+      takeName: Armature|Armature|HeavyLanding|Armature|HeavyLanding
       internalID: 0
       firstFrame: 0
-      lastFrame: 13
+      lastFrame: 41
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

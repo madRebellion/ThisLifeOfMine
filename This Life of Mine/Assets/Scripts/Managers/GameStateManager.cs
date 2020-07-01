@@ -19,7 +19,7 @@ public class GameStateManager : MonoBehaviour
 
     public bool isPaused = false;
 
-    public GameObject pauseMenu;
+    public GameObject pauseMenu, movesMenu;
 
     public Player player;
     public CameraController camera;
@@ -40,6 +40,23 @@ public class GameStateManager : MonoBehaviour
             Cursor.visible = false;
             pauseMenu.SetActive(false);
             Time.timeScale = 1f;
+        }
+    }
+
+    public void MovesMenu()
+    {
+        if (isPaused)
+        {
+            movesMenu.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            movesMenu.SetActive(false);
         }
     }
 

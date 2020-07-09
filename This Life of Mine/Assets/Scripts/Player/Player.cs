@@ -5,7 +5,9 @@ using Enums;
 
 [RequireComponent(typeof(PlayerMove))]
 public class Player : MonoBehaviour
-{
+{    
+    public PlayerState state;
+
     public ItemPickUp nearbyItem;
     public DialogueNPC nearbyNpc;
     public Enemy nearbyEnemy;
@@ -39,21 +41,13 @@ public class Player : MonoBehaviour
         playerTransform = transform;
         mover = GetComponent<PlayerMove>();
         cameraController = Camera.main.GetComponent<CameraController>();
+
+        state = PlayerState.Moving;
     }
 
     private void Update()
     {
-        Ray ray = new Ray(cameraController.transform.position + new Vector3(0f, 0f, 5f), cameraController.transform.forward * 10f);
-        RaycastHit hit;
-        Debug.DrawRay(cameraController.transform.position, cameraController.transform.forward * 10f);
-        if (Physics.Raycast(ray, out hit, 10f, mask))
-        {            
-            if (hit.transform.tag == "NPC / No Dialogue")
-            {
-                Debug.Log(hit.transform.name);
-                lockOnTarget = hit.transform;           
-            }
-        }
+        //HandleInputs();
 
         if (lockOnTarget != null && Input.GetKeyDown(KeyCode.L))
             lockedOn = true;
@@ -69,8 +63,30 @@ public class Player : MonoBehaviour
             nearbyEnemy.Interact();
         }
 
-        HandleInputs();
+        switch (state)
+        {
+            case PlayerState.Moving:
+                //mover.Move();
+                HandleInputs();
+                break;
+            case PlayerState.Interacting:
+                if (nearbyItem != null)
+                    nearbyItem.Interact();
+                if (nearbyNpc != null)
+                    nearbyNpc.Interact();
+                break;
+            case PlayerState.Paused:
+                //GameStateManager.instance.PauseGame();
+                break;
+        }
+    }
 
+    private void FixedUpdate()
+    {
+        if (state == PlayerState.Moving)
+        {
+            mover.Move();
+        }
     }
 
     public void LookAtTarget(Transform target)
@@ -84,25 +100,21 @@ public class Player : MonoBehaviour
 
     void HandleInputs()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            GameStateManager.instance.isPaused = !GameStateManager.instance.isPaused;
-            GameStateManager.instance.PauseGame();
-        }
         if (inRange && Input.GetKeyDown(KeyCode.E))
         {
-            if (nearbyItem != null)
-                nearbyItem.Interact();
-            else if (nearbyNpc != null)
-            {
-                nearbyNpc.Interact();
-                mover.anim.SetTrigger("SayHello");
-            }
+            //if (nearbyItem != null)
+            //    nearbyItem.Interact();
+            //else if (nearbyNpc != null)
+            //{
+            //    nearbyNpc.Interact();
+            //    mover.anim.SetTrigger("SayHello");
+            //}
+            state = PlayerState.Interacting;
             
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !jumping)
         {
-            mover.anim.SetBool("Jump", true);
+            mover.anim.SetTrigger("Jump");
             mover.Jump();
         }
         if (Input.GetKeyDown(KeyCode.H))
@@ -123,8 +135,8 @@ public class Player : MonoBehaviour
             GameStateManager.instance.isPaused = !GameStateManager.instance.isPaused;
             GameStateManager.instance.MovesMenu();
         }
-        else if (!HUDManager.instance.isInteracting)
-            mover.Move();
+        //else if (!HUDManager.instance.isInteracting)
+        //    mover.Move();
     }
 
     void InteractWithItem()
@@ -202,5 +214,7 @@ public class Player : MonoBehaviour
         playerRot.z = rot[2];
         transform.eulerAngles = playerRot;
     }
-   
+  
 }
+
+public enum PlayerState { Moving, Interacting, Combat, Paused }

@@ -24,6 +24,15 @@ public class GameStateManager : MonoBehaviour
     public Player player;
     public CameraController camera;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            isPaused = !isPaused;
+            PauseGame();
+        }
+    }
+
     public void PauseGame()
     {
         if (isPaused)
@@ -32,7 +41,7 @@ public class GameStateManager : MonoBehaviour
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
+            player.state = PlayerState.Paused;
         }
         else
         {
@@ -40,6 +49,7 @@ public class GameStateManager : MonoBehaviour
             Cursor.visible = false;
             pauseMenu.SetActive(false);
             Time.timeScale = 1f;
+            player.state = PlayerState.Moving;
         }
     }
 

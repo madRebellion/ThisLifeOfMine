@@ -7,13 +7,14 @@ public class PlayerMove : MonoBehaviour
 
     public Animator anim;
     
-    public CharacterController characterController;
+    public Rigidbody characterController;
 
     float rotationTarget;
     float rotationVelocity;
     float rotationSpeed = 0.1f;
     float speed;
     float velocityY;
+    float distance;
 
     public bool airbourne;
 
@@ -21,46 +22,52 @@ public class PlayerMove : MonoBehaviour
     public float animationTime = 10f;
     public int prevSeed, seed;
     public float gravity = -12f;
+
+    public float walkSpeed = 1.6f;
+    public float runSpeed = 10f;
     
     private void Awake()
     {
         camera = Camera.main.transform;
         anim = GetComponentInChildren<Animator>();
-        characterController = GetComponent<CharacterController>();
+        characterController = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        if (!characterController.isGrounded)
-        {
-            airbourne = true;
-            anim.SetBool("Airbourne", airbourne);
-        }
-        else
-        {
-            airbourne = false;
-            anim.SetBool("Airbourne", airbourne);
-            anim.SetBool("Jump", false);
-        }
+        //if (!characterController.isGrounded)
+        //{
+        //    airbourne = true;
+        //    anim.SetBool("Airbourne", airbourne);
+        //}
+        //else
+        //{
+        //    airbourne = false;
+        //    anim.SetBool("Airbourne", airbourne);
+        //    anim.SetBool("Jump", false);
+        //}
 
         FindGround();
     }
 
     public void Jump()
     {
-        if (characterController.isGrounded)
-        {
+        //if (characterController.isGrounded)
+        //{
             float jumpVel = Mathf.Sqrt(-2f * gravity * jumpHeight);
             velocityY = jumpVel;            
-        }
+        //}
+        
+        characterController.AddForce(Vector3.up * 1000f, ForceMode.Force);
+        
     }
 
     void FindGround()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.position + Vector3.down, out hit, 0.3f))
-        {
-            Debug.Log(hit.transform.name);
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
+        {            
+            distance = Vector3.Distance(transform.position, hit.point);           
         }
     }
 
@@ -77,25 +84,35 @@ public class PlayerMove : MonoBehaviour
             //Mathf.ATan2 contains functionality for when the x value is 0 and so throws the correct rotation and not a division by zero error.
             rotationTarget = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + camera.eulerAngles.y;
             //Don't snap to a direction, rotate smoothly towards the new direction.
-            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+            //transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+            Vector3 rbRotation = Vector3.up * Mathf.SmoothDampAngle(/*transform.eulerAngles.y*/characterController.rotation.eulerAngles.y, rotationTarget, ref rotationVelocity, rotationSpeed);
+            characterController.rotation = Quaternion.Euler(rbRotation);
+            //characterController.velocity = transform.forward * speed * Time.deltaTime;
+            //characterController.MovePosition(transform.position * speed * Time.deltaTime);
+            //characterController.position += transform.forward * speed * Time.deltaTime;
         }
 
-        speed = (Input.GetKey(KeyCode.LeftShift) ? 60f : 1.8f) * inputDirection.magnitude;
+        speed = (Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed) * inputDirection.magnitude;
 
-        velocityY += Time.deltaTime * gravity;
+        //velocityY += Time.deltaTime * gravity;
 
-        Vector3 velocity = transform.forward * speed + Vector3.up * velocityY;
+        //Vector3 velocity = transform.forward * speed + Vector3.up * velocityY;
 
-        characterController.Move(velocity * Time.deltaTime);
+        //characterController.Move(velocity * Time.deltaTime);
+        //characterController.Move(transform.forward * speed * Time.deltaTime);
 
-        speed = new Vector2(characterController.velocity.x, characterController.velocity.z).magnitude;
+        //characterController.MovePosition(transform.forward * speed * Time.fixedDeltaTime);
 
-        if (characterController.isGrounded)
-        {
-            velocityY = 0f;
-        }
+        characterController.velocity = (transform.forward * speed * Time.fixedDeltaTime) * inputDirection.magnitude;
 
-        float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? speed/6f : speed/1.8f * 0.5f);
+        //speed = new Vector2(characterController.velocity.x, characterController.velocity.z).magnitude;
+
+        //if (characterController.isGrounded)
+        //{
+        //    velocityY = 0f;
+        //}
+
+        float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f) * inputDirection.magnitude;
         anim.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
 
         if (animSpeed < 0.1f && !HUDManager.instance.isInteracting)

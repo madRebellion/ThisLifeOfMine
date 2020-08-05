@@ -10,7 +10,7 @@ public class ItemPickUp : Interactable
     public override void Interact()
     {
         base.Interact();
-        PlayerManager.instance.player.mover.anim.SetTrigger("PickUp");
+        //PlayerManager.instance.player.mover.anim.SetTrigger("PickUp");
         HUDManager.instance.DisplayItemPopUp(this);
         CollectItem();
     }

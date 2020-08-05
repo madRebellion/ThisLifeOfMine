@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     public LayerMask mask;
 
-    public PlayerMove mover;
+    //public PlayerMove mover;
     public CameraController cameraController;
 
     public Animator animator;
@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         playerTransform = transform;
-        mover = GetComponent<PlayerMove>();
+        //mover = GetComponent<PlayerMove>();
         cameraController = Camera.main.GetComponent<CameraController>();
 
         state = PlayerState.Moving;
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
     {
         if (state == PlayerState.Moving)
         {
-            mover.Move();
+            //mover.Move();
         }
     }
 
@@ -112,24 +112,24 @@ public class Player : MonoBehaviour
             state = PlayerState.Interacting;
             
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !jumping)
-        {
-            mover.anim.SetTrigger("Jump");
-            mover.Jump();
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            mover.anim.SetTrigger("SayHello");
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            combatMode = !combatMode;
-            mover.anim.SetBool("CombatMode", combatMode);
-        }      
-        if (Input.GetMouseButtonDown(0))
-        {
-            mover.anim.SetTrigger("Attack");
-        }
+        //if (Input.GetKeyDown(KeyCode.Space) && !jumping)
+        //{
+        //    mover.anim.SetTrigger("Jump");
+        //    mover.Jump();
+        //}
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    mover.anim.SetTrigger("SayHello");
+        //}
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    combatMode = !combatMode;
+        //    mover.anim.SetBool("CombatMode", combatMode);
+        //}      
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    mover.anim.SetTrigger("Attack");
+        //}
         if (Input.GetKeyDown(KeyCode.M))
         {
             GameStateManager.instance.isPaused = !GameStateManager.instance.isPaused;
@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
 
     public void StopAnimating()
     {
-        mover.anim.SetFloat("Speed", 0f);
+        //mover.anim.SetFloat("Speed", 0f);
     }
 
     private void OnTriggerEnter(Collider other)

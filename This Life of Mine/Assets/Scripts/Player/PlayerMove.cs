@@ -23,7 +23,7 @@ public class PlayerMove : MonoBehaviour
     public int prevSeed, seed;
     public float gravity = -12f;
 
-    public float walkSpeed = 1.6f;
+    public float walkSpeed = 10f/*1.6f*/;
     public float runSpeed = 10f;
     
     private void Awake()
@@ -112,18 +112,18 @@ public class PlayerMove : MonoBehaviour
         //    velocityY = 0f;
         //}
 
-        float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? 1f : 0.5f) * inputDirection.magnitude;
-        anim.SetFloat("Speed", animSpeed, 0.1f, Time.deltaTime);
+        float animSpeed = (Input.GetKey(KeyCode.LeftShift) ? 1f : 1f) * inputDirection.magnitude;
+        anim.SetFloat("Run", animSpeed, 0.1f, Time.deltaTime);
 
-        if (animSpeed < 0.1f && !HUDManager.instance.isInteracting)
-        {
-            IdleAnimationsController();
-        }
-        else
-        {
-            seed = 0;
-            animationTime = 8f;
-        }
+        //if (animSpeed < 0.1f && !HUDManager.instance.isInteracting)
+        //{
+        //    IdleAnimationsController();
+        //}
+        //else
+        //{
+        //    seed = 0;
+        //    animationTime = 8f;
+        //}
     }
 
     // Rigidbody movement

@@ -68,7 +68,7 @@ public class HUDManager : MonoBehaviour
         descriptionText.text = _item.item.itemBasics.itemDesc;
         popUpBox.SetActive(true);
         player.cameraController.enabled = false;
-        player.mover.enabled = false;
+        //player.mover.enabled = false;
 
     }
 

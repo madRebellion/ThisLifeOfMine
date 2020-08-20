@@ -80,6 +80,6 @@ public class HUDManager : MonoBehaviour
         //player.mover.enabled = true;
         popUpBox.SetActive(false);
         isInteracting = false;
-        PlayerManager.instance.player.state = PlayerState.Moving;
+        //PlayerManager.instance.player.state = PlayerState.Moving;
     }
 }

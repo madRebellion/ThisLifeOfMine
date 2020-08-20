@@ -14,18 +14,18 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    public Player player;
+    public PlayerController player;
 
     private void FixedUpdate()
     {
-        if (HUDManager.instance.isInteracting)
-        {
-            if (player.lookTarget != null)
-            {
-                player.LookAtTarget(player.lookTarget);
-            }
+        //if (HUDManager.instance.isInteracting)
+        //{
+        //    if (player.lookTarget != null)
+        //    {
+        //        player.LookAtTarget(player.lookTarget);
+        //    }
 
-            player.StopAnimating();
-        }
+        //    player.StopAnimating();
+        //}
     }      
 }

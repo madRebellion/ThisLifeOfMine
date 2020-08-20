@@ -15,12 +15,16 @@ public class PlayerController : MonoBehaviour
     float currentSpeed, targetSpeedVel, smoothSpeed = 0.1f;
 
     float gravityEffect;
+    float idleTime = 0.0f;
 
     public float gravity = -9.81f;
 
     private void Update()
     {        
         Move();
+
+        anim.SetFloat("IdleTime", idleTime += Time.deltaTime);
+       
     }
 
     public void Move()
@@ -33,6 +37,7 @@ public class PlayerController : MonoBehaviour
         {
             targetRot = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRot, ref targetRotVel, rotSpeed);
+            idleTime = 0.0f;
         }
 
         bool moving = (inputDirection != Vector3.zero);

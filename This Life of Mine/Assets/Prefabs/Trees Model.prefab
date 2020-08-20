@@ -55,6 +55,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &572984934845207211
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +136,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -158,6 +161,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &572984935230585314
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +171,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 572984935230585313}
-  - component: {fileID: 572984935230585312}
   - component: {fileID: 551643356382487258}
   m_Layer: 0
   m_Name: Trees Model
@@ -192,25 +195,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &572984935230585312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572984935230585314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6545f9a3e26bdae4284953bdbd69cad1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trunkMeshRenderer: {fileID: 572984934845207209}
-  leavesMeshRenderer: {fileID: 572984934141715988}
-  barkMaterial: {fileID: 2100000, guid: b5cf508530e14ab46b74bc38d42cbdc9, type: 2}
-  leavesMaterial:
-  - {fileID: 2100000, guid: 93a43bee32974ee41beef54609508c28, type: 2}
-  - {fileID: 2100000, guid: 2842a9556c0fd884789ea182957e5945, type: 2}
-  - {fileID: 2100000, guid: 3a7ddba2da87419419e5b65d9186094d, type: 2}
 --- !u!65 &551643356382487258
 BoxCollider:
   m_ObjectHideFlags: 0

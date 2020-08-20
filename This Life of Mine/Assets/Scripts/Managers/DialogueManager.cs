@@ -117,7 +117,7 @@ public class DialogueManager : MonoBehaviour
         isInConversation = false;
         HUDManager.instance.isInteracting = false;
         dialogueBox.SetActive(false);
-        PlayerManager.instance.player.state = PlayerState.Moving;
+        //PlayerManager.instance.player.state = PlayerState.Moving;
     }
 
 }

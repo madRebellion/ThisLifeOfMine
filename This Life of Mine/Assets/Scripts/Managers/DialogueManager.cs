@@ -50,7 +50,7 @@ public class DialogueManager : MonoBehaviour
     public void ActivateDialogue(Dialogue characterDialogue)
     {
         isInConversation = true;
-        HUDManager.instance.isInteracting = true;
+        //HUDManager.instance.isInteracting = true;
         Debug.Log("Talking with " + characterDialogue.charName);
 
         dialogueBox.SetActive(true);        
@@ -115,7 +115,7 @@ public class DialogueManager : MonoBehaviour
         playerMovement.enabled = true;
         cameraMovement.enabled = true;
         isInConversation = false;
-        HUDManager.instance.isInteracting = false;
+        //HUDManager.instance.isInteracting = false;
         dialogueBox.SetActive(false);
         //PlayerManager.instance.player.state = PlayerState.Moving;
     }

@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {    
     public PlayerState state;
 
-    public ItemPickUp nearbyItem;
+    //public ItemPickUp nearbyItem;
     public DialogueNPC nearbyNpc;
     public Enemy nearbyEnemy;
     //Container container;
@@ -70,8 +70,8 @@ public class Player : MonoBehaviour
                 HandleInputs();
                 break;
             case PlayerState.Interacting:
-                if (nearbyItem != null)
-                    nearbyItem.Interact();
+                //if (nearbyItem != null)
+                //    nearbyItem.Interact();
                 if (nearbyNpc != null)
                     nearbyNpc.Interact();
                 break;
@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
 
     void InteractWithItem()
     {
-        nearbyItem.Interact();
+        //nearbyItem.Interact();
     }
 
     public void StopAnimating()
@@ -153,18 +153,18 @@ public class Player : MonoBehaviour
     {
         switch (other.tag)
         {
-            case "Item":
-                nearbyItem = other.gameObject.GetComponent<ItemPickUp>();
-                nearbyItem.DetermineItem();
-                lookTarget = nearbyItem.transform;
-                inRange = true;
-                HUDManager.instance.ShowPrompt(nearbyItem);
-                break;
+            //case "Item":
+            //    nearbyItem = other.gameObject.GetComponent<ItemPickUp>();
+            //    nearbyItem.DetermineItem();
+            //    lookTarget = nearbyItem.transform;
+            //    inRange = true;
+            //    HUDManager.instance.ShowPrompt(nearbyItem);
+            //    break;
             case "NPC / Dialogue":
                 nearbyNpc = other.gameObject.GetComponent<DialogueNPC>();
                 lookTarget = nearbyNpc.transform;
                 inRange = true;
-                HUDManager.instance.ShowPrompt(nearbyNpc);
+                //HUDManager.instance.ShowPrompt(nearbyNpc);
                 nearbyNpc.CollectDialogue();
                 break;
             case "Enemy":
@@ -181,14 +181,14 @@ public class Player : MonoBehaviour
     {
         switch (other.tag)
         {
-            case "Item":
-                HUDManager.instance.HidePrompt(nearbyItem);
-                nearbyItem = null;
-                lookTarget = null;
-                inRange = false;
-                break;
+            //case "Item":
+            //    HUDManager.instance.HidePrompt(nearbyItem);
+            //    nearbyItem = null;
+            //    lookTarget = null;
+            //    inRange = false;
+            //    break;
             case "NPC / Dialogue":
-                HUDManager.instance.HidePrompt(nearbyNpc);
+                //HUDManager.instance.HidePrompt(nearbyNpc);
                 nearbyNpc = null;
                 lookTarget = null;
                 break;

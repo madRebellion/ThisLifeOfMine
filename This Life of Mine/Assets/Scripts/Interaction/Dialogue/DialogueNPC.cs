@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 //Attach this to characters you want the player to talk to.
-public class DialogueNPC : Interactable
+public class DialogueNPC : MonoBehaviour
 {
     [SerializeField]
     Dialogue npcDialogue;
@@ -17,9 +17,8 @@ public class DialogueNPC : Interactable
         //CalculateDistanceAway(transform);
     }
 
-    public override void Interact()
+    public void Interact()
     {
-        base.Interact();
         StartDialogue();
     }
 

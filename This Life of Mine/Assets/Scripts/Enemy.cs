@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : Interactable
+public class Enemy : MonoBehaviour
 {
     EntityStats myStats;
 
@@ -18,10 +18,8 @@ public class Enemy : Interactable
         distance = DistanceFromPlayer();
     }
 
-    public override void Interact()
+    public void Interact()
     {
-        base.Interact();
-
         EntityCombat p = PlayerManager.instance.player.GetComponent<EntityCombat>();
         p.AttackTarget(myStats);
     }

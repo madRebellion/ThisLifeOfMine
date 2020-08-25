@@ -7,7 +7,7 @@ public class PlayerStats : EntityStats
     // Start is called before the first frame update
     void Start()
     {
-        EquipmentManager.instance.onEquipmentChangedCallback += ChangeStats;
+        //EquipmentManager.instance.onEquipmentChangedCallback += ChangeStats;
     }
 
     // Update is called once per frame
@@ -19,17 +19,17 @@ public class PlayerStats : EntityStats
         }
     }
 
-    void ChangeStats(Equipment newItem, Equipment oldItem)
-    {
-        if (newItem != null)
-        {
-            armour.AddStatModifier(newItem.armourModifier);
-            damage.AddStatModifier(newItem.damageModifier);
-        }
-        if (oldItem != null)
-        {
-            armour.RemoveStatModifier(oldItem.armourModifier);
-            damage.RemoveStatModifier(oldItem.damageModifier);
-        }
-    }
+    //void ChangeStats(Equipment newItem, Equipment oldItem)
+    //{
+    //    if (newItem != null)
+    //    {
+    //        armour.AddStatModifier(newItem.armourModifier);
+    //        damage.AddStatModifier(newItem.damageModifier);
+    //    }
+    //    if (oldItem != null)
+    //    {
+    //        armour.RemoveStatModifier(oldItem.armourModifier);
+    //        damage.RemoveStatModifier(oldItem.damageModifier);
+    //    }
+    //}
 }

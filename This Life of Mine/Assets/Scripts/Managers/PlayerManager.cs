@@ -14,8 +14,9 @@ public class PlayerManager : MonoBehaviour
     }
     #endregion
 
-    public PlayerController player;
-
+    public Player player;
+    public PlayerControls controls;
+        
     private void FixedUpdate()
     {
         //if (HUDManager.instance.isInteracting)
@@ -27,5 +28,18 @@ public class PlayerManager : MonoBehaviour
 
         //    player.StopAnimating();
         //}
-    }      
+    }
+
+    //Load order = Awake -> OnEnable -> Start
+    private void OnEnable()
+    {
+        if (controls == null)
+            controls = new PlayerControls();
+
+        controls.Enable();
+    }
+    private void OnDisable()
+    {
+        controls.Disable();
+    }
 }

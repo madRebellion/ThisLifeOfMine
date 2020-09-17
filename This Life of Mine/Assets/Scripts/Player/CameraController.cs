@@ -2,24 +2,33 @@
 
 public class CameraController : MonoBehaviour
 {
-    Vector3 currentPosition;
+    PlayerManager playerManager;
+
+    Vector3 currentRotation;
     Vector3 velocity;
     
     public float distanceFromPlayer = 8f;
-    float yaw;
-    float pitch;
+    [SerializeField]float yaw;
+    [SerializeField]float pitch;
     float smoothTime = 0.1f;
 
     public Transform player;
     public Transform lockOnTarget;
+    //public PlayerControls controls;
     
     public float mouseSensitivity;
     public bool isLockingOn = false;
 
+    //private void Awake()
+    //{
+    //    controls = new PlayerControls();
+    //}
+
     void Start()
     {
+        playerManager = PlayerManager.instance;
         //Lock the mouse cursor to the centre of the game window and hide it from view.
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
@@ -37,14 +46,14 @@ public class CameraController : MonoBehaviour
     void MoveCamera()
     {
         //Yaw is looking left and right.
-        yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+        yaw = playerManager.controls.SimpleControls.MoveCamera.ReadValue<Vector2>().x;
         //Pitch is looking up and down. Inverted for some reason. Works as intended but can be changed if people prefer the inverted controls.
-        pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        pitch = -playerManager.controls.SimpleControls.MoveCamera.ReadValue<Vector2>().y;
         //Prevents the camera from completely rolling under or over the player.
-        pitch = Mathf.Clamp(pitch, -10f, 45f);
+        pitch = Mathf.Clamp(pitch, -20f, 65f);
 
-        currentPosition = Vector3.SmoothDamp(currentPosition, new Vector3(pitch, yaw), ref velocity, smoothTime);
-        transform.eulerAngles = currentPosition;
+        currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref velocity, smoothTime);
+        transform.eulerAngles = currentRotation;
         transform.position = player.position - (transform.forward * distanceFromPlayer);
     }
 
@@ -73,4 +82,13 @@ public class CameraController : MonoBehaviour
         cameraRot.z = camRot[2];
         transform.eulerAngles = cameraRot;
     }
+
+    //private void OnEnable()
+    //{
+    //    controls.Enable();   
+    //}
+    //private void OnDisable()
+    //{
+    //    controls.Disable();
+    //}
 }

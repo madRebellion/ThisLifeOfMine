@@ -10,10 +10,10 @@ public class EntityStats : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            ReceiveDamage(10);
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    ReceiveDamage(10);
+        //}
     }
 
     public void ReceiveDamage(int _damageAmount)

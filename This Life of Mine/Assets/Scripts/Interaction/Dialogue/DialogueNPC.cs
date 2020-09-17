@@ -12,6 +12,11 @@ public class DialogueNPC : MonoBehaviour
     int dialogueID = 1;
     int previousID;
 
+    private void Start()
+    {
+        CollectDialogue();
+    }
+
     private void FixedUpdate()
     {
         //CalculateDistanceAway(transform);

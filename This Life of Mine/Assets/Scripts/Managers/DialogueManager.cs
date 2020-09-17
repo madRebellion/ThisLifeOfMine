@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
+using Cinemachine;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -26,38 +25,44 @@ public class DialogueManager : MonoBehaviour
     //Accessing the text element of the Text Mesh Pro component for use in UI
     public TextMeshProUGUI charName, charSentence, conversationPrompts;
 
-    public GameObject talkPrompt, itemPrompt, dialogueBox;
+    public GameObject talkPrompt, itemPrompt, dialogueBox, hotbar;
 
     Color nextColour = new Color(255, 255, 255), completeColour = new Color(0, 198, 0);
 
     //Prevent the player and camera from moving when in dialogue.
-    public Player playerMovement;
-    public CameraController cameraMovement;
+    public Player player;
+    public CinemachineFreeLook freeLookCamera;
 
     public bool isInConversation = false;
-    
+
     //A different way to write a Start function
-    void Start() => dialogueSentences = new Queue<string>();
+    void Start()
+    {
+        dialogueSentences = new Queue<string>();
+        PlayerManager.instance.controls.SimpleControls.Interact.performed += dialogue => DisplaySentence();
+    }
 
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && isInConversation)
-        {
-            DisplaySentence();
-        }
+        //if (Input.GetKeyDown(KeyCode.Q) && isInConversation)
+        //{
+        //    DisplaySentence();
+        //}
     }
 
+    #region Dialogue
     public void ActivateDialogue(Dialogue characterDialogue)
     {
         isInConversation = true;
         //HUDManager.instance.isInteracting = true;
         Debug.Log("Talking with " + characterDialogue.charName);
 
+        hotbar.SetActive(false);
         dialogueBox.SetActive(true);        
         talkPrompt.SetActive(false);
 
-        cameraMovement.enabled = false;
-        playerMovement.enabled = false;
+        freeLookCamera.enabled = false;
+        player.state = PlayerState.Interacting;
 
         charName.text = characterDialogue.charName;
        
@@ -69,32 +74,34 @@ public class DialogueManager : MonoBehaviour
             dialogueSentences.Enqueue(s);
         }
         //Show first/next sentence
-        DisplaySentence();
-        
+        DisplaySentence();        
     }
 
     public void DisplaySentence()
     {
-        switch (dialogueSentences.Count)
+        if (isInConversation)
         {
-            case 0:
-                FinishDialogue();
-                return;
-            case 1:
-                conversationPrompts.text = "- End -";
-                conversationPrompts.color = completeColour;
-                break;
-            default:
-                conversationPrompts.text = "> Next [Q]";
-                conversationPrompts.color = nextColour;
-                break;
+            switch (dialogueSentences.Count)
+            {
+                case 0:
+                    FinishDialogue();
+                    return;
+                case 1:
+                    conversationPrompts.text = "- End -";
+                    conversationPrompts.color = completeColour;
+                    break;
+                default:
+                    conversationPrompts.text = "> Next [E]";
+                    conversationPrompts.color = nextColour;
+                    break;
+            }
+
+            //Take the next element in our queue and store it as a new string for later use.
+            string sentence = dialogueSentences.Dequeue();
+
+            StopAllCoroutines();
+            StartCoroutine(TypeSentence(sentence));
         }
-
-        //Take the next element in our queue and store it as a new string for later use.
-        string sentence = dialogueSentences.Dequeue();
-
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
     }
 
     //Animate each letter appearing on scren rather than just throwing the sentence on screen all at once.
@@ -110,14 +117,24 @@ public class DialogueManager : MonoBehaviour
 
     void FinishDialogue()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        playerMovement.enabled = true;
-        cameraMovement.enabled = true;
+        player.state = PlayerState.Moving;
+        freeLookCamera.enabled = true;
         isInConversation = false;
         //HUDManager.instance.isInteracting = false;
         dialogueBox.SetActive(false);
         //PlayerManager.instance.player.state = PlayerState.Moving;
+        hotbar.SetActive(true);
     }
+    #endregion
 
+    private void OnEnable()
+    {
+        //PlayerManager.instance.controls.SimpleControls.Interact.performed += dialogue => DisplaySentence();
+    }
+    private void OnDisable()
+    {
+        PlayerManager.instance.controls.SimpleControls.Interact.performed -= dialogue => DisplaySentence();
+    }
 }

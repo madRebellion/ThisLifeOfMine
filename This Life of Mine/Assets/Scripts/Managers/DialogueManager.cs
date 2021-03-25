@@ -20,6 +20,8 @@ public class DialogueManager : MonoBehaviour
     }
     #endregion
 
+    public DialogueNPC npc;
+
     Queue<string> dialogueSentences;
 
     //Accessing the text element of the Text Mesh Pro component for use in UI
@@ -48,12 +50,16 @@ public class DialogueManager : MonoBehaviour
         //{
         //    DisplaySentence();
         //}
+
+        if (player.nearbyNpc != null && npc.interactionTimer <= 0)
+            talkPrompt.SetActive(true);
     }
 
     #region Dialogue
     public void ActivateDialogue(Dialogue characterDialogue)
     {
         isInConversation = true;
+        npc = player.nearbyNpc;
         //HUDManager.instance.isInteracting = true;
         Debug.Log("Talking with " + characterDialogue.charName);
 
@@ -126,6 +132,8 @@ public class DialogueManager : MonoBehaviour
         dialogueBox.SetActive(false);
         //PlayerManager.instance.player.state = PlayerState.Moving;
         hotbar.SetActive(true);
+
+        npc.talkable = false;
     }
     #endregion
 

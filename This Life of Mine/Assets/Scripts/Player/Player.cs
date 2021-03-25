@@ -4,7 +4,9 @@ using UnityEngine;
 using Enums;
 
 public class Player : PlayerController
-{    
+{
+    //PlayerManager playerManager;
+
     public PlayerState state;
 
     public DialogueNPC nearbyNpc;
@@ -12,6 +14,7 @@ public class Player : PlayerController
     
     public bool combatMode = false;
     //public float waitTime = 1.05f;
+    //public float interactionTimer = 2f;
 
     //public LayerMask mask;
 
@@ -19,17 +22,27 @@ public class Player : PlayerController
     
     private void Start()
     {
+        //playerManager = PlayerManager.instance;
         state = PlayerState.Moving;
     }
 
     private void Update()
     {
         if (state == PlayerState.Moving)
+        {
             Move();
+        }
         else if (state == PlayerState.Interacting)
+        {
             anim.SetFloat("Run", 0.0f);
+        }
 
         Idle();
+
+        if (nearbyNpc != null && PlayerManager.instance.controls.SimpleControls.Interact.activeControl != null)
+        {
+            nearbyNpc.Interact();
+        }
     }
 
     public void LookAtTarget(Transform target)
@@ -50,10 +63,21 @@ public class Player : PlayerController
                 other.gameObject.SetActive(false);
                 break;
             case "NPC / Dialogue":
-                other.GetComponent<DialogueNPC>().StartDialogue();
+                //other.GetComponent<DialogueNPC>().StartDialogue();
+                nearbyNpc = other.GetComponent<DialogueNPC>();
+                DialogueManager.Instance.talkPrompt.SetActive(true);
                 break;
             default:
                 break;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "NPC / Dialogue")
+        {
+            nearbyNpc = null;
+            DialogueManager.Instance.talkPrompt.SetActive(false);
         }
     }
 

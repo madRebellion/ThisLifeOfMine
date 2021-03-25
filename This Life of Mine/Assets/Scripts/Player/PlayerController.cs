@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         bool moving = (input != Vector2.zero);
         moveSpeed = ((playerManager.controls.SimpleControls.Sprint.activeControl != null) ? sprintSpeed : walkSpeed) * input.magnitude;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, moveSpeed, ref targetSpeedVel, smoothSpeed);
-
+ 
         gravityEffect += Time.deltaTime * gravity;
 
         Vector3 velocity = transform.forward * currentSpeed + Vector3.up * gravityEffect;

@@ -49,7 +49,10 @@ public class ItemSlot : MonoBehaviour
             amountInInvetory--;
 
             if (amountInInvetory < 1)
+            {
                 itemInSlot.RemoveFromInventory();
+                CleanSlot();
+            }
         }
         else
             Debug.Log("Item null.");

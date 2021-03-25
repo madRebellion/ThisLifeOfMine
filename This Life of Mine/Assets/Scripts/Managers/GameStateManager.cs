@@ -50,7 +50,7 @@ public class GameStateManager : MonoBehaviour
             hotBar.SetActive(false);
             pauseMenu.SetActive(true);
             Time.timeScale = 0f;
-            //Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             //player.state = PlayerState.Paused;
         }

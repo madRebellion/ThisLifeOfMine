@@ -12,19 +12,32 @@ public class DialogueNPC : MonoBehaviour
     int dialogueID = 1;
     int previousID;
 
+    public float interactionTimer = 2f;
+    public bool talkable = true;
+
     private void Start()
     {
         CollectDialogue();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         //CalculateDistanceAway(transform);
+        if (!talkable)
+            interactionTimer -= 1f * Time.deltaTime;
+        if (interactionTimer <= 0)
+        {
+            talkable = true;
+            interactionTimer = 2f;
+        }
     }
 
     public void Interact()
     {
-        StartDialogue();
+        if (talkable)
+        {
+            StartDialogue();
+        }
     }
 
     void ChangeID()
@@ -41,7 +54,7 @@ public class DialogueNPC : MonoBehaviour
         }
     }
 
-    public void StartDialogue()
+    void StartDialogue()
     {
         DialogueManager.Instance.ActivateDialogue(npcDialogue);
         ChangeID();

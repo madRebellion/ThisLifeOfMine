@@ -12,7 +12,10 @@ public class InventoryManager : MonoBehaviour
         Instance = this;                
     }
 
+    [SerializeField] GameObject quickBar;
+    
     int buttonPressed = -1;
+    bool showHUD;
 
     PlayerManager playerManager;
     private void Start()
@@ -25,7 +28,11 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        ItemBeingUsed();
+        if (itemList.Count > 0)
+            ItemBeingUsed();
+
+        showHUD = (playerManager.controls.SimpleControls.QuickBar.activeControl != null) ? true : false;
+        quickBar.SetActive(showHUD);
     }
 
     int availableInventorySpace = 10;
@@ -55,7 +62,7 @@ public class InventoryManager : MonoBehaviour
     public void RemoveItemFromInventory(Item removeItem)
     {
         itemList.Remove(removeItem);
-
+        
         OnInventoryChanged?.Invoke(removeItem);
     }
 

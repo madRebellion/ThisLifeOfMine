@@ -65,6 +65,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""QuickBar"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf0d442e-d3d4-49a2-ad72-2936b778c1f5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -364,6 +372,39 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0368ea2d-bf0d-4d97-8e43-7508bc2672df"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gampad"",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83bf693e-eeb3-40d0-8e73-79e4b411801a"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""QuickBar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b6de677-6d57-4f6f-be86-e3b337bb80d7"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gampad"",
+                    ""action"": ""QuickBar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -416,6 +457,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_SimpleControls_MoveCamera = m_SimpleControls.FindAction("MoveCamera", throwIfNotFound: true);
         m_SimpleControls_UseItem = m_SimpleControls.FindAction("UseItem", throwIfNotFound: true);
         m_SimpleControls_Sprint = m_SimpleControls.FindAction("Sprint", throwIfNotFound: true);
+        m_SimpleControls_QuickBar = m_SimpleControls.FindAction("QuickBar", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -471,6 +513,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_SimpleControls_MoveCamera;
     private readonly InputAction m_SimpleControls_UseItem;
     private readonly InputAction m_SimpleControls_Sprint;
+    private readonly InputAction m_SimpleControls_QuickBar;
     public struct SimpleControlsActions
     {
         private @PlayerControls m_Wrapper;
@@ -481,6 +524,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @MoveCamera => m_Wrapper.m_SimpleControls_MoveCamera;
         public InputAction @UseItem => m_Wrapper.m_SimpleControls_UseItem;
         public InputAction @Sprint => m_Wrapper.m_SimpleControls_Sprint;
+        public InputAction @QuickBar => m_Wrapper.m_SimpleControls_QuickBar;
         public InputActionMap Get() { return m_Wrapper.m_SimpleControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -508,6 +552,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Sprint.started -= m_Wrapper.m_SimpleControlsActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_SimpleControlsActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_SimpleControlsActionsCallbackInterface.OnSprint;
+                @QuickBar.started -= m_Wrapper.m_SimpleControlsActionsCallbackInterface.OnQuickBar;
+                @QuickBar.performed -= m_Wrapper.m_SimpleControlsActionsCallbackInterface.OnQuickBar;
+                @QuickBar.canceled -= m_Wrapper.m_SimpleControlsActionsCallbackInterface.OnQuickBar;
             }
             m_Wrapper.m_SimpleControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -530,6 +577,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @QuickBar.started += instance.OnQuickBar;
+                @QuickBar.performed += instance.OnQuickBar;
+                @QuickBar.canceled += instance.OnQuickBar;
             }
         }
     }
@@ -560,5 +610,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnMoveCamera(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnQuickBar(InputAction.CallbackContext context);
     }
 }
